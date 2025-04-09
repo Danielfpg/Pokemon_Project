@@ -37,11 +37,14 @@ async def actualizar_carta(nombre: str, data: dict):
 
 # Eliminar carta por nombre
 @app.delete("/cartas/{nombre}", response_model=CartModel)
-async def eliminar_carta(nombre: str):
-    eliminada = eliminar_carta(nombre)
+async def eliminar_carta_endpoint(nombre: str):
+    eliminada = eliminar_carta(nombre)  # sin await
     if not eliminada:
         raise HTTPException(status_code=404, detail="Carta no encontrada")
     return eliminada
+
+
+
 
 # Filtrar por tipo de carta
 @app.get("/cartas/tipo/{tipo}", response_model=List[CartModel])

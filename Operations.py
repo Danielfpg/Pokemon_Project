@@ -1,6 +1,8 @@
 import csv
+import ast
 from typing import Optional, List
-from Models.main_model_card import CartModel, MainModelBase
+from Models.main_model_card import CartModel
+from Models.base_model import MainModelBase
 from Models.Model_Pokemon_card import CartaPokemon
 from Models.Model_Energie_card import CartaEnergia
 from Models.Model_Trainer_card import CartaEntrenador
@@ -16,12 +18,21 @@ def leer_todas_las_cartas() -> List[MainModelBase]:
         reader = csv.DictReader(f)
         cartas = []
         for row in reader:
-            tipo = row["tipo_carta"]
-            if tipo == "Pokemon":
+            tipo = row["tipo_carta"].lower()
+
+            # ⚠️ Convierte 'stats' si existe
+            if "stats" in row and row["stats"]:
+                try:
+                    row["stats"] = ast.literal_eval(row["stats"])
+                except Exception as e:
+                    print("Error convirtiendo stats:", e)
+                    row["stats"] = {}
+
+            if tipo == "pokemon":
                 cartas.append(CartaPokemon(**row))
-            elif tipo == "Entrenador":
+            elif tipo == "entrenador":
                 cartas.append(CartaEntrenador(**row))
-            elif tipo == "Energia":
+            elif tipo == "energia":
                 cartas.append(CartaEnergia(**row))
         return cartas
 
@@ -118,4 +129,5 @@ def eliminar_carta(nombre: str) -> Optional[CartModel]:
             writer.writeheader()
             for carta in nuevas:
                 writer.writerow(carta.model_dump())
+        print(f"Intentando eliminar la carta con nombre: {nombre}")
     return eliminada
