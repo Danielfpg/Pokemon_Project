@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from starlette.responses import JSONResponse
-from Operations import *
+from Operations.Operations_base import*
 from typing import List
 
 app = FastAPI()

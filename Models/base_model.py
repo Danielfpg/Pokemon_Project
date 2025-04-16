@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from .enums import RarezaEnum
+from enums import RarezaEnum
 
 class MainModelBase(BaseModel):
     id: int
