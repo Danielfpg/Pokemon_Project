@@ -166,7 +166,7 @@ def eliminar_carta(nombre: str) -> Optional[CartModel]:
     return eliminada
 
 
-def restaurar_carta_desde_backup(nombre: str) -> Optional[CartModel]:
+def restaurar_carta(nombre: str) -> Optional[CartModel]:
     """Restaura una carta desde el archivo de respaldo (Backup) al archivo principal (Carts)."""
     cartas_backup = leer_csv(BACKUP_DATABASE)
     restaurada = None

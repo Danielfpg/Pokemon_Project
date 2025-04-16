@@ -1,8 +1,1 @@
-id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
-1,Pikachu,pokemon,común,200,electrico,,,,,"{'speed': 122, 'hp': 13, 'attack': 122, 'defense': 1, 'special_atk': 12, 'special_def': 12}"
-,,,,,,,,,,
-,,,,,,,,,,
-,,,,,,,,,,
-,,,,,,,,,,
-,,,,,,,,,,
-,,,,,,,,,,
+
