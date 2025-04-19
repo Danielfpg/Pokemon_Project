@@ -8,9 +8,11 @@ class TipoCartaEnum(str, Enum):
 class TipoEnergiaEnum(str, Enum):
     fuego = "fuego"
     agua = "agua"
+    planta="planta"
     incolora = "incolora"
 
 class RarezaEnum(str, Enum):
     comun = "común"
     rara = "rara"
+    Ultre="Ultre"
     legendaria = "legendaria"

@@ -28,7 +28,7 @@ def buscar_entrenador_por_nombre(nombre: str) -> Optional[CartaEntrenador]:
 def crear_carta_entrenador(carta: CartaEntrenador) -> CartaEntrenador:
     if id_existe(carta.id):
         raise ValueError("Ya existe una carta con ese ID.")
-    write_card_into_csv(carta)
+    write_card_into_csv(carta,DATABASE)
     return carta
 
 

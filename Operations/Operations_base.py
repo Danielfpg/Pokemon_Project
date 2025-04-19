@@ -10,7 +10,7 @@ from Models.Model_Trainer_card import CartaEntrenador
 DATABASE = "Carts.csv"
 BACKUP_DATABASE = "Backup.csv"
 column_fields = ["id", "nombre", "tipo_carta", "rare", "costo_en_bolsa",
-                 "tipo", "especial", "subtipo", "efecto", "tiempo", "stats"]
+                 "tipo", "especial", "subtipo", "efecto", "tiempo", "stats",]
 
 
 # ---------------------------- Helper Functions ----------------------------
@@ -26,10 +26,10 @@ def convertir_stats(row: dict) -> dict:
     """Convierte la columna 'stats' en un diccionario si es necesario."""
     if "stats" in row and row["stats"]:
         try:
-            row["stats"] = ast.literal_eval(row["stats"])
+            row["stats"] = ast.literal_eval(row["stats"])  # Convierte la cadena a un diccionario
         except Exception as e:
             print("Error convirtiendo stats:", e)
-            row["stats"] = {}
+            row["stats"] = {}  # Si ocurre un error, asignamos un diccionario vacío
     return row
 
 
@@ -79,8 +79,18 @@ def id_existe(id: int) -> bool:
     try:
         with open(DATABASE, newline="") as f:
             reader = csv.DictReader(f)
-            return any(int(row["id"]) == id for row in reader)
+            # Verifica si la columna 'id' existe antes de intentar acceder a ella
+            if 'id' not in reader.fieldnames:
+                raise ValueError(f"La columna 'id' no existe en el archivo {DATABASE}")
+            return any(int(row["id"]) == id for row in reader if row["id"].isdigit())  # Asegúrate de que 'id' sea un número
     except FileNotFoundError:
+        print(f"El archivo {DATABASE} no se encontró.")
+        return False
+    except ValueError as e:
+        print(f"Error de valor: {e}")
+        return False
+    except Exception as e:
+        print(f"Ocurrió un error: {e}")
         return False
 
 

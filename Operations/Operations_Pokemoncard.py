@@ -28,7 +28,9 @@ def buscar_pokemon_por_nombre(nombre: str) -> Optional[CartaPokemon]:
 def crear_carta_pokemon(carta: CartaPokemon) -> CartaPokemon:
     if id_existe(carta.id):
         raise ValueError("Ya existe una carta con ese ID.")
-    write_card_into_csv(carta)
+    print("DEBUG: Se está usando esta versión de crear_carta_pokemon")
+    print("DEBUG: Archivo destino:", DATABASE)
+    write_card_into_csv(carta, DATABASE)
     return carta
 
 
