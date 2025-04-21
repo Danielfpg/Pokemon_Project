@@ -1,0 +1,2 @@
+id,nombre,tipo_carta,rare,costo_en_bolsa,subtipo,efecto,tiempo
+1,Desafio de rojo,entrenador,rara,1500.0,partidario,buscar carta especifica,un turno

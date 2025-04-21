@@ -12,7 +12,7 @@ class TipoEnergiaEnum(str, Enum):
     incolora = "incolora"
 
 class RarezaEnum(str, Enum):
-    comun = "común"
+    comun = "comun"
     rara = "rara"
     Ultre="Ultre"
     legendaria = "legendaria"

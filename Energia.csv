@@ -1,0 +1,2 @@
+id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial
+10,Energia planta,energia,comun,100.0,planta,True

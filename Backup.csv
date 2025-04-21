@@ -1,0 +1,4 @@
+id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
+0,string,pokemon,comun,1.0,string,,,,,"{'speed': 0, 'hp': 0, 'attack': 0, 'defense': 0, 'special_atk': 0, 'special_def': 0}"
+0,string,entrenador,comun,1.0,string,string,string
+0,string,energia,comun,1.0,fuego,True

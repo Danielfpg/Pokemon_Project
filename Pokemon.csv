@@ -1,0 +1,2 @@
+id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
+635,Hydreigon,pokemon,comun,1500,siniestro drag�n,,,,,"{'speed': 60, 'hp': 60, 'attack': 70, 'defense': 60, 'special_atk': 80, 'special_def': 60}"
