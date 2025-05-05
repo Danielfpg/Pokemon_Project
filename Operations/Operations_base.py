@@ -54,6 +54,7 @@ def validar_y_completar_fila(row: dict, tipo: str) -> dict:
 
 
 def crear_carta_por_tipo(tipo: str, row: dict) -> CartModel:
+    row = {str(key): value for key, value in row.items()}
     if tipo == "pokemon":
         return CartaPokemon(**row)
     elif tipo == "entrenador":

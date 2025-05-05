@@ -25,6 +25,13 @@ from Operations.Operations_Trainercard import (
     modificar_carta_entrenador,
     eliminar_carta_entrenador
 )
+from db.db_Operations_Energie_Card import (
+    leer_cartas_energia_sql,
+    buscar_energia_por_nombre_sql,
+    crear_carta_energia_sql,
+    modificar_carta_energia_sql,
+    eliminar_carta_energia_sql
+)
 from Operations.Operations_Energiecard import (
     leer_cartas_energia,
     buscar_energia_por_nombre,
@@ -38,7 +45,9 @@ from Models.Model_Pokemon_card import CartaPokemon
 from Models.Model_Trainer_card import CartaEntrenador
 from Models.Model_Energie_card import CartaEnergia
 from Models.main_model_card import CartModel
-
+from db.db_connection import get_db_session
+from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends
 app = FastAPI(title="Pokémon Card Manager API")
 
 # ----------------------------------------
@@ -168,7 +177,39 @@ async def eliminar_energia(nombre: str):
     if not carta:
         raise HTTPException(status_code=404, detail=f"No se pudo eliminar. La carta Energía '{nombre}' no existe.")
     return carta
+""""    
+# ----------------------------------------
+#         Endpoints Energía (Base de datos)
+# ----------------------------------------
+@app.get("/cartas/energia", response_model=List[CartaEnergia])
+async def obtener_todas_energia(session: AsyncSession = Depends(get_db_session)):
+    return await leer_cartas_energia_sql(session)
 
+@app.get("/cartas/energia/{nombre}", response_model=CartaEnergia)
+async def obtener_energia(nombre: str, session: AsyncSession = Depends(get_db_session)):
+    carta = await buscar_energia_por_nombre_sql(session, nombre)
+    if not carta:
+        raise HTTPException(status_code=404, detail=f"Carta Energía '{nombre}' no encontrada.")
+    return carta
+
+@app.post("/cartas/energia", response_model=CartaEnergia)
+async def crear_energia(carta: CartaEnergia, session: AsyncSession = Depends(get_db_session)):
+    return await crear_carta_energia_sql(session, carta)
+
+@app.put("/cartas/energia/{nombre}", response_model=CartaEnergia)
+async def editar_energia(nombre: str, data: dict, session: AsyncSession = Depends(get_db_session)):
+    carta = await modificar_carta_energia_sql(session, nombre, data)
+    if not carta:
+        raise HTTPException(status_code=404, detail=f"No se pudo modificar. La carta Energía '{nombre}' no existe.")
+    return carta
+
+@app.delete("/cartas/energia/{nombre}", response_model=CartaEnergia)
+async def eliminar_energia(nombre: str, session: AsyncSession = Depends(get_db_session)):
+    carta = await eliminar_carta_energia_sql(session, nombre)
+    if not carta:
+        raise HTTPException(status_code=404, detail=f"No se pudo eliminar. La carta Energía '{nombre}' no existe.")
+    return carta
+"""
 # ----------------------------------------
 #        Manejo general de errores
 # ----------------------------------------
