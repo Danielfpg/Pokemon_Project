@@ -1,8 +1,11 @@
-from pydantic import BaseModel, Field
+from sqlalchemy import Column, Integer, String, Float, Enum
+from db.db_connection import Base
 from .enums import RarezaEnum
 
-class MainModelBase(BaseModel):
-    id: int
-    nombre: str = Field(..., min_length=3, max_length=30)
-    rare: RarezaEnum
-    costo_en_bolsa: float = Field(..., gt=0)
+class MainModel(Base):
+    __tablename__ = "main_model"
+
+    id = Column(Integer, primary_key=True, autoincrement=False, index=True)
+    nombre = Column(String(50), nullable=False, unique=True, index=True)     # Nombre único y con índice
+    rare = Column(Enum(RarezaEnum), nullable=False)
+    costo_en_bolsa = Column(Float, nullable=False)
