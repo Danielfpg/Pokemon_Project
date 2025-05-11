@@ -30,7 +30,6 @@ from Operations.Operations_db.db_Operations_Trainer_Card import (
     eliminar_carta_entrenador,
     restaurar_carta_entrenador
 )
-from Operations.Operations_pydantic.Operations_Pokemoncard import *
 from db.db_connection import get_session
 
 

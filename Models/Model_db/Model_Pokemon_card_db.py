@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Enum, ForeignKey
 from sqlalchemy.orm import relationship
-from .base_model_db import MainModel
-from Models.enums import TipoCartaEnum,RarezaEnum
+from Models.Model_db.base_model_db import MainModel
+from Models.enums import TipoCartaEnum
 from db.db_connection import Base
 from sqlalchemy.orm import validates
 
