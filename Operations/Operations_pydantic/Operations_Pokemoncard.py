@@ -1,6 +1,6 @@
 import csv
 from typing import List, Optional
-from Models.Model_db.Model_Pokemon_card_db import CartaPokemon
+from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Operations.Operations_pydantic.Operations_base import (
     leer_todas_las_cartas,
     buscar_carta_por_nombre,
