@@ -18,7 +18,7 @@ if all([USER, PASSWORD, HOST, PORT, DB_NAME]):
     DB_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"
 else:
     print("⚠️ Variables de entorno incompletas. Usando SQLite por defecto.")
-    DB_URL = "sqlite+aiosqlite:///petsdb.db"
+    DB_URL = "sqlite+aiosqlite:///Pokemondb.db"
 
 engine = create_async_engine(DB_URL, echo=True)
 

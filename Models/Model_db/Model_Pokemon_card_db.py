@@ -10,7 +10,7 @@ class CartaPokemonDB(MainModel, Base):
 
     tipo_carta = Column(Enum(TipoCartaEnum), default=TipoCartaEnum.pokemon, nullable=False)
     tipo = Column(String, nullable=False)
-    stats_id = Column(Integer, ForeignKey("stats.carta_pokemon_id"), nullable=False)
+    stats_id = Column(Integer, ForeignKey("stats.id"), nullable=False)
     stats = relationship("StatsDB", back_populates="carta_pokemon", uselist=False)
 
     __mapper_args__ = {

@@ -1,4 +1,1 @@
 id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
-635,Hydreigon,pokemon,comun,1500.0,siniestro drag�n,,,,,"{'speed': 60, 'hp': 60, 'attack': 70, 'defense': 60, 'special_atk': 80, 'special_def': 60}"
-45,bulbasure,pokemon,comun,1500.0,planta,,,,,"{'speed': 30, 'hp': 30, 'attack': 50, 'defense': 50, 'special_atk': 50, 'special_def': 50}"
-58,charizard,pokemon,comun,2500.0,fuego,,,,,"{'speed': 40, 'hp': 50, 'attack': 60, 'defense': 50, 'special_atk': 60, 'special_def': 50}"

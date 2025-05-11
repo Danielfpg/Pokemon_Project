@@ -1,3 +1,1 @@
 id,nombre,tipo_carta,rare,costo_en_bolsa,subtipo,especial,efecto,tiempo
-12,profesor oak,entrenador,comun,2400.0,partidario,,,permite agregar una carta al mazo
-180,Estadio Animado,entrenador,rara,1000.0,Estadio,,Cada Pokemon Basico en juego obtiene 30 Ps,un turno
