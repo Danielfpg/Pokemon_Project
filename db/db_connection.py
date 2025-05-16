@@ -40,3 +40,4 @@ async def get_session():
             yield session
     except Exception as e:
         print(f"Error al obtener la sesión: {e}")
+        raise

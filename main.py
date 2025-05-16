@@ -6,6 +6,8 @@ from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Models.Model_pydantic.Model_Energie_card import CartaEnergia
 from Models.Model_pydantic.Model_Trainer_card import CartaEntrenador
 from Models.Model_pydantic.main_model_card import CartModel
+from Models.Model_db.Model_Pokemon_card_db import CartaPokemonDB
+from Models.Model_db.Model_stats_db import StatsDB
 from Operations.Operations_db.db_Operations_Pokemon_Card import (
     crear_carta_pokemon,
     obtener_cartas_pokemon,
@@ -39,7 +41,19 @@ app = FastAPI()
 #--------------------
 @app.post("/cartas/pokemon/", response_model=CartaPokemon)
 async def agregar_carta_pokemon(carta: CartaPokemon, db: AsyncSession = Depends(get_session)):
-    return await crear_carta_pokemon(db, carta)
+    carta_data = carta.dict(exclude={"stats"})
+    stats_data = carta.stats.dict()
+
+    stats_db = StatsDB(**stats_data)
+    carta_db = CartaPokemonDB(**carta_data)
+
+    carta_db.stats = stats_db
+
+    db.add(carta_db)
+    await db.commit()
+    await db.refresh(carta_db)
+
+    return carta_db
 
 @app.get("/cartas/pokemon/", response_model=list[CartaPokemon])
 async def obtener_cartas_pokemon_endpoint(db: AsyncSession = Depends(get_session)):

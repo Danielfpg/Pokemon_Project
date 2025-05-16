@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Boolean, Enum, ForeignKey
-from .base_model_db import MainModel
+from Models.Model_db.base_model_db import MainModel
 from Models.enums import TipoEnergiaEnum, TipoCartaEnum
 from db.db_connection import Base
 
