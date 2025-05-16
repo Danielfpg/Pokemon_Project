@@ -3,14 +3,23 @@ from sqlalchemy.future import select
 from Models.Model_db.Model_Pokemon_card_db import CartaPokemonDB
 from Models.Model_db.Pokemon_Backup import CartaPokemonBackupDB
 from sqlalchemy.exc import SQLAlchemyError
-
+from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
+from Models.Model_db.Model_stats_db import StatsDB
 # Crear una nueva carta Pokémon
-async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemonDB):
+async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
     try:
-        db.add(carta)
+        carta_data = carta.dict(exclude={"stats"})
+        stats_data = carta.stats.dict()
+
+        stats_db = StatsDB(**stats_data)
+        carta_db = CartaPokemonDB(**carta_data)
+        carta_db.stats = stats_db
+
+        db.add(carta_db)
         await db.commit()
-        await db.refresh(carta)
-        return carta
+        await db.refresh(carta_db)
+
+        return carta_db
     except SQLAlchemyError as e:
         await db.rollback()
         raise Exception(f"Error al crear carta Pokémon: {str(e)}")

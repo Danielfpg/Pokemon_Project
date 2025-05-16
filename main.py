@@ -37,6 +37,7 @@ from Operations.Operations_db.db_Operations_Trainer_Card import (
     eliminar_carta_entrenador,
     restaurar_carta_entrenador
 )
+
 from db.db_connection import get_session
 app = FastAPI()
 
@@ -45,7 +46,6 @@ app = FastAPI()
 #--------------------
 #POKEMON
 #--------------------
-@app.post("/cartas/pokemon/", response_model=CartaPokemon)
 @app.post("/cartas/pokemon/", response_model=CartaPokemon)
 async def agregar_carta_pokemon(carta: CartaPokemon, db: AsyncSession = Depends(get_session)):
     return await crear_carta_pokemon(db, carta)
