@@ -5,7 +5,6 @@ from Models.enums import RarezaEnum
 
 class MainModel(Base):
     __abstract__ = True
-    __tablename__ = "main_model"
 
     id = Column(Integer, primary_key=True, autoincrement=False, index=True)
     nombre = Column(String(50), nullable=False, unique=True, index=True)  # Nombre único y con índice

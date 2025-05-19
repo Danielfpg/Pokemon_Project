@@ -10,7 +10,7 @@ class CartaPokemonDB(MainModel, Base):
 
     tipo_carta = Column(Enum(TipoCartaEnum), default=TipoCartaEnum.pokemon, nullable=False)
     tipo = Column(String, nullable=False)
-    stats = relationship("StatsDB", back_populates="carta_pokemon", uselist=False)
+    stats = relationship("StatsDB", back_populates="carta_pokemon", uselist=False,lazy="selectin")
 
     __mapper_args__ = {
         'polymorphic_identity': 'cartas_Pokemon',

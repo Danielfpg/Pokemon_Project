@@ -6,7 +6,6 @@ from db.db_connection import Base
 class CartaEnergiaDB(MainModel, Base):
     __tablename__ = "cartas_energia"
 
-    id = Column(Integer, ForeignKey('main_model.id'), primary_key=True)  # Herencia polimórfica correcta
     tipo_carta = Column(Enum(TipoCartaEnum), default=TipoCartaEnum.energia, nullable=False)
     tipo = Column(Enum(TipoEnergiaEnum), nullable=False)
     especial = Column(Boolean, default=False)

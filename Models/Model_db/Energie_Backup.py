@@ -7,7 +7,6 @@ from db.db_connection import Base
 class CartaEnergiaBackupDB(MainModel, Base):
     __tablename__ = "cartas_energia_backup"
 
-    id = Column(Integer, ForeignKey('main_model.id'), primary_key=True)
     tipo_carta = Column(Enum(TipoCartaEnum), default=TipoCartaEnum.energia, nullable=False)
     tipo = Column(Enum(TipoEnergiaEnum), nullable=False)
     especial = Column(Boolean, default=False)

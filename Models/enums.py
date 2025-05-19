@@ -1,9 +1,9 @@
 from enum import Enum
 
 class TipoCartaEnum(str, Enum):
-    pokemon = "Pokemon"
-    entrenador = "Entrenador"
-    energia = "Energia"
+    pokemon = "pokemon"
+    entrenador = "entrenador"
+    energia = "energia"
 
 class TipoEnergiaEnum(str, Enum):
     fuego = "fuego"
