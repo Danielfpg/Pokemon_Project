@@ -4,6 +4,8 @@ from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Models.Model_pydantic.Model_Energie_card import CartaEnergia
 from Models.Model_pydantic.Model_Trainer_card import CartaEntrenador
 from Models.Model_pydantic.main_model_card import CartModel
+from Models.Model_db.Pokemon_Backup import CartaPokemonBackupDB
+from Models.Model_pydantic.Model_Pokemon_Backup import CartaPokemonBackup
 from Operations.Operations_db.db_Operations_Pokemon_Card import (
     crear_carta_pokemon,
     obtener_cartas_pokemon,
@@ -62,7 +64,7 @@ async def modificar_carta_pokemon_endpoint(nombre: str, datos_actualizados: dict
         raise HTTPException(status_code=404, detail="Carta Pokémon no encontrada")
     return carta
 
-@app.delete("/cartas/pokemon/{nombre}", response_model=CartaPokemon)
+@app.delete("/cartas/pokemon/{nombre}", response_model=CartaPokemonBackup)
 async def eliminar_carta_pokemon_endpoint(nombre: str, db: AsyncSession = Depends(get_session)):
     carta = await eliminar_carta_pokemon(db, nombre)
     if carta is None:

@@ -75,7 +75,7 @@ async def eliminar_carta_pokemon(db: AsyncSession, nombre: str):
             costo_en_bolsa=carta.costo_en_bolsa,
             tipo_carta=carta.tipo_carta,
             tipo=carta.tipo,
-            stats_id=carta.stats_id
+            stats_id=carta.stats.id if carta.stats else None
         )
         db.add(carta_backup)
 
@@ -84,7 +84,7 @@ async def eliminar_carta_pokemon(db: AsyncSession, nombre: str):
         return carta_backup
     except SQLAlchemyError as e:
         await db.rollback()
-        raise Exception(f"Error al eliminar carta Pokémon: {str(e)}")
+        raise  RuntimeError("Error al eliminar carta Pokémon: ") from e
 
 # Restaurar una carta Pokémon desde un backup
 async def restaurar_carta_pokemon(db: AsyncSession, nombre: str):
