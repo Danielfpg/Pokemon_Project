@@ -2,12 +2,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from Models.Model_db.Model_Trainer_card_db import CartaEntrenadorDB
 from Models.Model_db.Trainer_Backup import CartaEntrenadorBackupDB
-
-async def crear_carta_entrenador(db: AsyncSession, carta: CartaEntrenadorDB):
-    db.add(carta)
+from Models.Model_pydantic.Model_Trainer_card import CartaEntrenador
+async def crear_carta_entrenador(db: AsyncSession, carta: CartaEntrenador):
+    carta_db = CartaEntrenadorDB(**carta.dict())
+    db.add(carta_db)
     await db.commit()
-    await db.refresh(carta)
-    return carta
+    await db.refresh(carta_db)
+    return carta_db
 
 async def obtener_cartas_entrenador(db: AsyncSession):
     result = await db.execute(select(CartaEntrenadorDB))

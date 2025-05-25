@@ -2,13 +2,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from Models.Model_db.Model_Energie_card_db import CartaEnergiaDB
 from Models.Model_db.Energie_Backup import CartaEnergiaBackupDB
+from Models.Model_pydantic.Model_Energie_card import CartaEnergia
 
-async def crear_carta_energia(db: AsyncSession, carta: CartaEnergiaDB):
-    db.add(carta)
+async def crear_carta_energia(db: AsyncSession, carta: CartaEnergia):
+    carta_db = CartaEnergiaDB(**carta.dict())
+    db.add(carta_db)
     await db.commit()
-    await db.refresh(carta)
-    return carta
-
+    await db.refresh(carta_db)
+    return carta_db
 async def obtener_cartas_energia(db: AsyncSession):
     result = await db.execute(select(CartaEnergiaDB))
     return result.scalars().all()
