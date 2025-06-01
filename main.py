@@ -1,4 +1,7 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, APIRouter, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Models.Model_pydantic.Model_Energie_card import CartaEnergia
@@ -31,14 +34,22 @@ from Operations.Operations_db.db_Operations_Trainer_Card import (
     restaurar_carta_entrenador
 )
 from db.db_connection import get_session, init_db
+from model_website.home import router as home_router
 
 app = FastAPI()
-
-
+app.include_router(home_router)
 @app.on_event("startup")
 async def startup_event():
     await init_db()
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
+router = APIRouter()
+templates = Jinja2Templates(directory="model_website/templates")
+
+
+@router.get("/", response_class=HTMLResponse)
+async def read_home(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
 #--------------------
 #POKEMON
 #--------------------

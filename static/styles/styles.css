@@ -1,0 +1,21 @@
+    .navbar-container {
+      width: 75%;
+      margin: 20px auto 0;
+
+    }
+
+    .custom-footer {
+      background-color: rgba(0, 0, 0, 0.51) ;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .custom-navbar {
+      background-color: rgba(214, 234, 248, 0.34);
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .nav-link, .navbar-brand {
+      color: white !important;
+    }
