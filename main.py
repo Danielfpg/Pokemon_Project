@@ -38,6 +38,7 @@ from model_website.home import router as home_router
 
 app = FastAPI()
 app.include_router(home_router)
+
 @app.on_event("startup")
 async def startup_event():
     await init_db()

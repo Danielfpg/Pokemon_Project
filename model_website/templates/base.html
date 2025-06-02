@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <style>
+        body {
+            background-image: url('https://www.fiftysounds.com/images/graphics/black-background-with-waves-1018.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Visualización Pokémon{% endblock %}</title>
@@ -14,7 +23,7 @@
 <body   >
     {% include 'sections/navbar.html' %}
 
-    <main>
+    <main >
         {% block content %}{% endblock %}
     </main>
 

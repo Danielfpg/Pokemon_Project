@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .body_container {
+        width: 75%;
+        margin: 20px auto 0;
+    }
+    .found {
+        background-color: rgba(255, 255, 255, 0.91);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="body_container found">
+<h2>Crear nueva carta Pokémon</h2>
+<form method="post" action="/cartas/crear" enctype="multipart/form-data">
+    <!-- Nombre -->
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" required class="form-control" placeholder="Pikachu">
+    </div>
+
+    <!-- Rareza -->
+<div class="mb-3">
+    <label class="form-label">Rareza:</label>
+    <select name="rare" class="form-control" required>
+
+        <optgroup label="Rarezas básicas">
+            <option value="comun">Común</option>
+            <option value="poco_comun">Poco común</option>
+            <option value="rara">Rara</option>
+            <option value="rara_holo">Rara holográfica</option>
+            <option value="doble_rara">Doble rara</option>
+            <option value="rara_ilustracion">Rara de ilustración</option>
+            <option value="rara_ilustracion_especial">Rara de ilustración especial</option>
+            <option value="rara_brillante">Rara brillante</option>
+        </optgroup>
+
+        <optgroup label="Rarezas especiales (modernas)">
+            <option value="character_rare">Rara de personaje</option>
+            <option value="character_super_rare">Super rara de personaje</option>
+            <option value="art_rare">Rara de arte</option>
+            <option value="special_art_rare">Rara de arte especial</option>
+            <option value="super_shiny_rare">Súper rara brillante</option>
+            <option value="ultra_rara">Ultra rara</option>
+            <option value="hiper_rara">Híper rara</option>
+            <option value="rara_secreta">Rara secreta</option>
+            <option value="promocional">Promocional</option>
+        </optgroup>
+
+        <optgroup label="Rarezas históricas / específicas de sets">
+            <option value="radiant">Rara radiant</option>
+            <option value="amazing_rare">Rara asombrosa</option>
+            <option value="legendaria">Legendaria</option>
+            <option value="prime">Rara prime</option>
+            <option value="delta">Especie delta</option>
+            <option value="ace_spec">Ace spec</option>
+        </optgroup>
+
+        <optgroup label="No son rarezas, pero se suelen tratar como tales">
+            <option value="ex">EX</option>
+            <option value="gx">GX</option>
+            <option value="v">V</option>
+            <option value="vmax">VMAX</option>
+            <option value="vstar">VSTAR</option>
+            <option value="tag_team">Tag Team</option>
+        </optgroup>
+
+    </select>
+</div>
+
+
+    <!-- Costo en bolsa -->
+    <div class="mb-3">
+        <label class="form-label">Costo en bolsa:</label>
+        <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01">
+    </div>
+
+    <!-- Tipo carta (fijo y oculto) -->
+    <input type="hidden" name="tipo_carta" value="Pokémon">
+
+    <!-- Tipo Pokémon primario -->
+    <div class="mb-3">
+        <label class="form-label">Tipo Pokémon primario</label>
+        <select id="tipo1" class="form-control" required>
+            <option value="">Selecciona un tipo</option>
+            {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+            <option value="{{ tipo }}">{{ tipo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Tipo Pokémon secundario -->
+    <div class="mb-3">
+        <label class="form-label">Tipo Pokémon secundario (opcional)</label>
+        <select id="tipo2" class="form-control">
+            <option value="">Ninguno</option>
+            {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+            <option value="{{ tipo }}">{{ tipo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Tipo combinado (oculto) -->
+    <input type="hidden" name="tipo" id="tipo-combinado">
+
+    <script>
+        const tipo1 = document.getElementById('tipo1');
+        const tipo2 = document.getElementById('tipo2');
+        const tipoCombinado = document.getElementById('tipo-combinado');
+
+        function actualizarTipo() {
+            const t1 = tipo1.value;
+            const t2 = tipo2.value;
+            if (t1 && t2 && t1 !== t2) {
+                tipoCombinado.value = `${t1}/${t2}`;
+            } else {
+                tipoCombinado.value = t1;
+            }
+        }
+
+        tipo1.addEventListener('change', actualizarTipo);
+        tipo2.addEventListener('change', actualizarTipo);
+    </script>
+
+    <!-- Estadísticas -->
+    <h4>Estadísticas</h4>
+    <div class="mb-3">
+        <label>HP:</label>
+        <input type="number" name="stats.hp" required class="form-control" min="1" max="1000">
+    </div>
+    <div class="mb-3">
+        <label>Ataque:</label>
+        <input type="number" name="stats.attack" required class="form-control" min="1" max="330">
+    </div>
+    <div class="mb-3">
+        <label>Defensa:</label>
+        <input type="number" name="stats.defense" required class="form-control" min="1" max="255">
+    </div>
+    <div class="mb-3">
+        <label>Velocidad:</label>
+        <input type="number" name="stats.speed" required class="form-control" min="1" max="255">
+    </div>
+    <div class="mb-3">
+        <label>Ataque especial:</label>
+        <input type="number" name="stats.special_atk" required class="form-control" min="1" max="255">
+    </div>
+    <div class="mb-3">
+        <label>Defensa especial:</label>
+        <input type="number" name="stats.special_def" required class="form-control" min="1" max="255">
+    </div>
+
+    <!-- Imagen -->
+    <div class="mb-3">
+        <label>Imagen (opcional):</label>
+        <input type="file" name="imagen" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-success">Crear carta</button>
+</form>
+</div>
+{% endblock %}

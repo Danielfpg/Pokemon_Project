@@ -1,39 +1,55 @@
 {% extends 'base.html' %}
 {% block title %} Inicio - Visualizando {% endblock %}
 {% block content %}
+<style>
+    .body_container {
+      width: 75%;
+      margin: 20px auto 0;
 
-<h1>Hola Mundo desde FastAPI</h1>
+    }
+    .found {
+      background-color: rgba(255, 255, 255, 0.91);
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+<div class="body_container found">
+<h1 style="text-align: center">TU LIBRERIA DE CARTAS</h1>
 <h1>{{title}}</h1>
-<h2>Este es un ejemplo de subtítulo</h2>
-<h3>Otro subtítulo</h3>
+<h3 style="text-align: center"> precios, guardados y novedades</h3>
 <h4 style="color: blue">{{name}}</h4>
-<p>Este es un párrafo simple explicando que estamos aprendiendo FastAPI con plantillas HTML.</p>
+  <br>
+  <div style="text-align: left; margin-left: 70px;">
+<p><h4> aqui puedes agregar tus cartas que tienes actualmente para llevar un registro de ellas.</h4> </p>
 
-<ul>
-
-    <li>Primer elemento</li>
-    <li>Segundo elemento</li>
+<ul >
+<h4>
+    <li>gestionar tus obtenciones</li>
+    <li>gestionar sus precios</li>
+    <li>actualizar tu colección.</li>
+</h4>
 </ul>
 
 
-<div class="card mb-3" style="max-width: 540px; max-height: fit-content">
+
+<div class="card mb-3" style="max-width: 540px; max-height: fit-content"style="text-align: center" >
   <div class="row g-0">
     <div class="col-md-4">
-      <img src="../static/img/cometa.png" class="img-fluid rounded-start" alt="...">
+    <img src="https://assets.pokemon.com/static-assets/content-assets/cms2-es-xl/img/cards/web/SV08/SV08_LA_240.png" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">Cometa</h5>
-        <p class="card-text">El perro veloz que aterrizo y destruyo la navidad.</p>
-        <p class="card-text"><small class="text-muted">Sabe atrapar la pelota</small></p>
+        <h4 class="card-title">carta</h4>
+        <p class="card-text">ejemplo de vista para una carta </p>
+        <p class="card-text"><small class="text-muted">vista previa</small></p>
       </div>
     </div>
   </div>
 </div>
+</div>
+<br>
 
 <br>
-<a class="btn btn-outline-success" href="/info">Vamos a ver mas info</a>
-<br>
-<a href="https://sigmotoa.com">Esto es un enlace</a>
 
 {% endblock %}
+</div>
