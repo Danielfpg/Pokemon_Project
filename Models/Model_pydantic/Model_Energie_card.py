@@ -9,5 +9,6 @@ class CartaEnergia(MainModelBase):
     tipo: TipoEnergiaEnum
     especial: bool
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
