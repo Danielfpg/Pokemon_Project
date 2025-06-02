@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Request, Form, Depends
+from fastapi import APIRouter, Request, Form, Depends, Query
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
+
 from Models.Model_db.Model_Pokemon_card_db import CartaPokemonDB
 from Models.Model_pydantic.Model_stats import Stats
 from Operations.Operations_db.db_Operations_Pokemon_Card import crear_carta_pokemon
@@ -38,10 +40,14 @@ async def agregar_carta_pokemon_form(
     speed: int = Form(...),
     special_atk: int = Form(...),
     special_def: int = Form(...),
-    #imagen: UploadFile | None = File(None),
     db: AsyncSession = Depends(get_session)
 ):
-    # Crear objeto Stats
+    if not tipo or tipo.strip() == "":
+        return templates.TemplateResponse("add_pokemon.html", {
+            "request": request,
+            "error": "Debe seleccionar al menos un tipo Pokémon."
+        })
+
     stats = Stats(
         hp=hp,
         attack=attack,
@@ -51,7 +57,6 @@ async def agregar_carta_pokemon_form(
         special_def=special_def
     )
 
-    # Crear objeto CartaPokemon
     carta = CartaPokemon(
         id=id,
         nombre=nombre,
@@ -62,22 +67,24 @@ async def agregar_carta_pokemon_form(
         stats=stats
     )
 
-
-    #if imagen:
-    #    contenido = await imagen.read()
-
-    #    ruta_guardado = f"static/imagenes/{imagen.filename}"
-     #   with open(ruta_guardado, "wb") as f:
-     #       f.write(contenido)
-
-
-    # Insertar carta en la base de datos
     await crear_carta_pokemon(db, carta)
-
 
     return RedirectResponse(url="/", status_code=303)
 @router.get("/ver_pokemones", response_class=HTMLResponse)
-async def ver_pokemones(request: Request, session: AsyncSession = Depends(get_session)):
-    result = await session.execute(select(CartaPokemonDB))
+async def ver_pokemones(
+    request: Request,
+    session: AsyncSession = Depends(get_session),
+    q: str = Query(default=None)
+):
+    stmt = select(CartaPokemonDB).options(selectinload(CartaPokemonDB.stats))
+
+    if q:
+        stmt = stmt.where(CartaPokemonDB.nombre.ilike(f"%{q}%"))
+
+    result = await session.execute(stmt)
     pokemones = result.scalars().all()
-    return templates.TemplateResponse("ver_pokemones.html", {"request": request})
+
+    return templates.TemplateResponse("ver_pokemones.html", {
+        "request": request,
+        "pokemones": pokemones
+    })

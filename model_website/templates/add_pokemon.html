@@ -78,85 +78,88 @@
 
 
 
-    <!-- Costo en bolsa -->
-    <div class="mb-3">
-        <label class="form-label">Costo en bolsa:</label>
-        <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01">
-    </div>
+        <!-- Costo en bolsa -->
+        <div class="mb-3">
+            <label class="form-label">Costo en bolsa:</label>
+            <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01">
+        </div>
 
-    <!-- Tipo carta (fijo y oculto) -->
-    <input type="hidden" name="tipo_carta" value="pokemon">
+        <!-- Tipo carta (oculto) -->
+        <input type="hidden" name="tipo_carta" value="pokemon">
 
-    <!-- Tipo Pokémon primario -->
-    <div class="mb-3">
-        <label class="form-label">Tipo Pokémon primario</label>
-        <select id="tipo1" class="form-control" required>
-            <option value="">Selecciona un tipo</option>
-            {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
-            <option value="{{ tipo }}">{{ tipo }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-    <!-- Tipo Pokémon secundario -->
-    <div class="mb-3">
-        <label class="form-label">Tipo Pokémon secundario (opcional)</label>
-        <select id="tipo2" class="form-control">
-            <option value="">Ninguno</option>
-            {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
-            <option value="{{ tipo }}">{{ tipo }}</option>
-            {% endfor %}
-        </select>
-    </div>
 
-    <!-- Tipo combinado (oculto) -->
-    <input type="hidden" name="tipo" id="tipo-combinado">
 
-    <script>
-        const tipo1 = document.getElementById('tipo1');
-        const tipo2 = document.getElementById('tipo2');
-        const tipoCombinado = document.getElementById('tipo-combinado');
+        <!-- Tipo primario -->
+        <div class="mb-3">
+            <label class="form-label">Tipo Pokémon primario</label>
+            <select id="tipo1" name="tipo1" class="form-control" required>
+                <option value="">Selecciona un tipo</option>
+                {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+                <option value="{{ tipo }}">{{ tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
 
-        function actualizarTipo() {
-            const t1 = tipo1.value;
-            const t2 = tipo2.value;
-            if (t1 && t2 && t1 !== t2) {
-                tipoCombinado.value = `${t1}/${t2}`;
-            } else {
-                tipoCombinado.value = t1;
+        <!-- Tipo secundario -->
+        <div class="mb-3">
+            <label class="form-label">Tipo Pokémon secundario (opcional)</label>
+            <select id="tipo2" name="tipo2" class="form-control">
+                <option value="">Ninguno</option>
+                {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+                <option value="{{ tipo }}">{{ tipo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Campo combinado (oculto) -->
+        <input type="hidden" name="tipo" id="tipo-combinado" value="">
+
+        <script>
+            const tipo1 = document.getElementById('tipo1');
+            const tipo2 = document.getElementById('tipo2');
+            const tipoCombinado = document.getElementById('tipo-combinado');
+
+            function actualizarTipo() {
+                const t1 = tipo1.value;
+                const t2 = tipo2.value;
+                if (t1 && t2 && t1 !== t2) {
+                    tipoCombinado.value = `${t1}, ${t2}`;
+                } else {
+                    tipoCombinado.value = t1;
+                }
             }
-        }
 
-        tipo1.addEventListener('change', actualizarTipo);
-        tipo2.addEventListener('change', actualizarTipo);
-    </script>
+            tipo1.addEventListener('change', actualizarTipo);
+            tipo2.addEventListener('change', actualizarTipo);
+        </script>
 
-    <!-- Estadísticas -->
-    <h4>Estadísticas</h4>
-    <div class="mb-3">
-        <label>HP:</label>
-        <input type="number" name="hp" required class="form-control" min="0" max="1000">
-    </div>
-    <div class="mb-3">
-        <label>Ataque:</label>
-        <input type="number" name="attack" required class="form-control" min="0" max="330">
-    </div>
-    <div class="mb-3">
-        <label>Defensa:</label>
-        <input type="number" name="defense" required class="form-control" min="0" max="255">
-    </div>
-    <div class="mb-3">
-        <label>Velocidad:</label>
-        <input type="number" name="speed" required class="form-control" min="0" max="255">
-    </div>
-    <div class="mb-3">
-        <label>Ataque especial:</label>
-        <input type="number" name="special_atk" required class="form-control" min="0" max="255">
-    </div>
-    <div class="mb-3">
-        <label>Defensa especial:</label>
-        <input type="number" name="special_def" required class="form-control" min="0" max="255">
-    </div>
+
+        <!-- Estadísticas -->
+        <h4>Estadísticas</h4>
+        <div class="mb-3">
+            <label>HP:</label>
+            <input type="number" name="hp" required class="form-control" min="0" max="1000">
+        </div>
+        <div class="mb-3">
+            <label>Ataque:</label>
+            <input type="number" name="attack" required class="form-control" min="0" max="330">
+        </div>
+        <div class="mb-3">
+            <label>Defensa:</label>
+            <input type="number" name="defense" required class="form-control" min="0" max="255">
+        </div>
+        <div class="mb-3">
+            <label>Velocidad:</label>
+            <input type="number" name="speed" required class="form-control" min="0" max="255">
+        </div>
+        <div class="mb-3">
+            <label>Ataque especial:</label>
+            <input type="number" name="special_atk" required class="form-control" min="0" max="255">
+        </div>
+        <div class="mb-3">
+            <label>Defensa especial:</label>
+            <input type="number" name="special_def" required class="form-control" min="0" max="255">
+        </div>
 
     <!-- Imagen
     <div class="mb-3">

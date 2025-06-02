@@ -49,4 +49,4 @@ class RarezaEnum(str, Enum):
     v = "v"
     vmax = "vmax"
     vstar = "vstar"
-    tag_team = "tag team"
+    tag_team = "tag_team"

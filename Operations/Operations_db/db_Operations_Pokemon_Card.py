@@ -11,6 +11,19 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
         carta_data = carta.dict(exclude={"stats"})
         stats_data = carta.stats.dict()
 
+        # Validar campo tipo
+        tipo = carta_data.get("tipo")
+        if not tipo:
+            raise ValueError("El tipo del Pokémon no puede estar vacío.")
+
+        tipos_validos = {"Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra",
+                         "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"}
+
+        tipos_ingresados = [t.strip() for t in tipo.split(",")]
+        for t in tipos_ingresados:
+            if t not in tipos_validos:
+                raise ValueError(f"Tipo de Pokémon inválido: {t}")
+
         stats_db = StatsDB(**stats_data)
         carta_db = CartaPokemonDB(**carta_data)
         carta_db.stats = stats_db
@@ -20,9 +33,10 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
         await db.refresh(carta_db)
 
         return carta_db
-    except SQLAlchemyError as e:
+    except (SQLAlchemyError, ValueError) as e:
         await db.rollback()
         raise Exception(f"Error al crear carta Pokémon: {str(e)}")
+
 
 # Obtener todas las cartas Pokémon
 async def obtener_cartas_pokemon(db: AsyncSession):
