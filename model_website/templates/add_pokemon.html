@@ -16,6 +16,11 @@
 <div class="body_container found">
 <h2>Crear nueva carta Pokémon</h2>
 <form method="post" action="/cartas/crear" enctype="multipart/form-data">
+    <!-- id-->
+    <div class="mb-3">
+        <label class="form-label">ID:</label>
+        <input type="number" step="1" name="id" required class="form-control" min="1">
+    </div>
     <!-- Nombre -->
     <div class="mb-3">
         <label class="form-label">Nombre:</label>
@@ -28,34 +33,34 @@
     <select name="rare" class="form-control" required>
 
         <optgroup label="Rarezas básicas">
-            <option value="comun">Común</option>
-            <option value="poco_comun">Poco común</option>
+            <option value="común">Común</option>
+            <option value="poco_común">Poco común</option>
             <option value="rara">Rara</option>
-            <option value="rara_holo">Rara holográfica</option>
+            <option value="rara_holográfica">Rara holográfica</option>
             <option value="doble_rara">Doble rara</option>
-            <option value="rara_ilustracion">Rara de ilustración</option>
-            <option value="rara_ilustracion_especial">Rara de ilustración especial</option>
+            <option value="rara_de_ilustración">Rara de ilustración</option>
+            <option value="rara_de_ilustración_especial">Rara de ilustración especial</option>
             <option value="rara_brillante">Rara brillante</option>
         </optgroup>
 
         <optgroup label="Rarezas especiales (modernas)">
-            <option value="character_rare">Rara de personaje</option>
-            <option value="character_super_rare">Super rara de personaje</option>
-            <option value="art_rare">Rara de arte</option>
-            <option value="special_art_rare">Rara de arte especial</option>
-            <option value="super_shiny_rare">Súper rara brillante</option>
+            <option value="rara_de_personaje">Rara de personaje</option>
+            <option value="super_rara_de_personaje">Súper rara de personaje</option>
+            <option value="rara_de_arte">Rara de arte</option>
+            <option value="rara_de_arte_especial">Rara de arte especial</option>
+            <option value="súper_rara_brillante">Súper rara brillante</option>
             <option value="ultra_rara">Ultra rara</option>
-            <option value="hiper_rara">Híper rara</option>
+            <option value="híper_rara">Híper rara</option>
             <option value="rara_secreta">Rara secreta</option>
             <option value="promocional">Promocional</option>
         </optgroup>
 
         <optgroup label="Rarezas históricas / específicas de sets">
-            <option value="radiant">Rara radiant</option>
-            <option value="amazing_rare">Rara asombrosa</option>
+            <option value="rara_radiant">Rara radiant</option>
+            <option value="rara_asombrosa">Rara asombrosa</option>
             <option value="legendaria">Legendaria</option>
-            <option value="prime">Rara prime</option>
-            <option value="delta">Especie delta</option>
+            <option value="rara_prime">Rara prime</option>
+            <option value="especie_delta">Especie delta</option>
             <option value="ace_spec">Ace spec</option>
         </optgroup>
 
@@ -65,11 +70,12 @@
             <option value="v">V</option>
             <option value="vmax">VMAX</option>
             <option value="vstar">VSTAR</option>
-            <option value="tag_team">Tag Team</option>
+            <option value="tag team">Tag Team</option>
         </optgroup>
 
     </select>
 </div>
+
 
 
     <!-- Costo en bolsa -->
@@ -79,7 +85,7 @@
     </div>
 
     <!-- Tipo carta (fijo y oculto) -->
-    <input type="hidden" name="tipo_carta" value="Pokémon">
+    <input type="hidden" name="tipo_carta" value="pokemon">
 
     <!-- Tipo Pokémon primario -->
     <div class="mb-3">
@@ -129,36 +135,37 @@
     <h4>Estadísticas</h4>
     <div class="mb-3">
         <label>HP:</label>
-        <input type="number" name="stats.hp" required class="form-control" min="1" max="1000">
+        <input type="number" name="hp" required class="form-control" min="0" max="1000">
     </div>
     <div class="mb-3">
         <label>Ataque:</label>
-        <input type="number" name="stats.attack" required class="form-control" min="1" max="330">
+        <input type="number" name="attack" required class="form-control" min="0" max="330">
     </div>
     <div class="mb-3">
         <label>Defensa:</label>
-        <input type="number" name="stats.defense" required class="form-control" min="1" max="255">
+        <input type="number" name="defense" required class="form-control" min="0" max="255">
     </div>
     <div class="mb-3">
         <label>Velocidad:</label>
-        <input type="number" name="stats.speed" required class="form-control" min="1" max="255">
+        <input type="number" name="speed" required class="form-control" min="0" max="255">
     </div>
     <div class="mb-3">
         <label>Ataque especial:</label>
-        <input type="number" name="stats.special_atk" required class="form-control" min="1" max="255">
+        <input type="number" name="special_atk" required class="form-control" min="0" max="255">
     </div>
     <div class="mb-3">
         <label>Defensa especial:</label>
-        <input type="number" name="stats.special_def" required class="form-control" min="1" max="255">
+        <input type="number" name="special_def" required class="form-control" min="0" max="255">
     </div>
 
-    <!-- Imagen -->
+    <!-- Imagen
     <div class="mb-3">
         <label>Imagen (opcional):</label>
         <input type="file" name="imagen" class="form-control">
-    </div>
+    </div>-->
 
     <button type="submit" class="btn btn-success">Crear carta</button>
 </form>
 </div>
+
 {% endblock %}
