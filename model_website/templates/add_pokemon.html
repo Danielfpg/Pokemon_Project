@@ -95,7 +95,7 @@
             <label class="form-label">Tipo Pokémon primario</label>
             <select id="tipo1" name="tipo1" class="form-control" required>
                 <option value="">Selecciona un tipo</option>
-                {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+                {% for  tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
                 <option value="{{ tipo }}">{{ tipo }}</option>
                 {% endfor %}
             </select>
