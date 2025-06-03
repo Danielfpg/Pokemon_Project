@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .body_container {
+        width: 75%;
+        margin: 20px auto 0;
+    }
+    .found {
+        background-color: rgba(255, 255, 255, 0.91);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="body_container found">
+<h2>Crear nueva carta Entrenador</h2>
+<form method="post" action="/cartas/crear/entrenador" enctype="multipart/form-data">
+    <!-- id-->
+    <div class="mb-3">
+        <label class="form-label">ID:</label>
+        <input type="number" step="1" name="id" required class="form-control" min="1">
+    </div>
+    <!-- Nombre -->
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" required class="form-control" placeholder="Poción Max">
+    </div>
+
+    <!-- Rareza -->
+    <div class="mb-3">
+        <label class="form-label">Rareza:</label>
+        <select name="rare" class="form-control" required>
+            <optgroup label="Rarezas básicas">
+                <option value="común">Común</option>
+                <option value="poco_común">Poco común</option>
+                <option value="rara">Rara</option>
+                <option value="rara_holográfica">Rara holográfica</option>
+                <option value="doble_rara">Doble rara</option>
+                <option value="rara_de_ilustración">Rara de ilustración</option>
+                <option value="rara_de_ilustración_especial">Rara de ilustración especial</option>
+                <option value="rara_brillante">Rara brillante</option>
+            </optgroup>
+            <optgroup label="Rarezas especiales (modernas)">
+                <option value="rara_de_personaje">Rara de personaje</option>
+                <option value="super_rara_de_personaje">Súper rara de personaje</option>
+                <option value="rara_de_arte">Rara de arte</option>
+                <option value="rara_de_arte_especial">Rara de arte especial</option>
+                <option value="súper_rara_brillante">Súper rara brillante</option>
+                <option value="ultra_rara">Ultra rara</option>
+                <option value="híper_rara">Híper rara</option>
+                <option value="rara_secreta">Rara secreta</option>
+                <option value="promocional">Promocional</option>
+            </optgroup>
+            <optgroup label="Rarezas históricas / específicas de sets">
+                <option value="rara_radiant">Rara radiant</option>
+                <option value="rara_asombrosa">Rara asombrosa</option>
+                <option value="legendaria">Legendaria</option>
+                <option value="rara_prime">Rara prime</option>
+                <option value="especie_delta">Especie delta</option>
+                <option value="ace_spec">Ace spec</option>
+            </optgroup>
+            <optgroup label="No son rarezas, pero se suelen tratar como tales">
+                <option value="ex">EX</option>
+                <option value="gx">GX</option>
+                <option value="v">V</option>
+                <option value="vmax">VMAX</option>
+                <option value="vstar">VSTAR</option>
+                <option value="tag team">Tag Team</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <!-- Costo en bolsa -->
+    <div class="mb-3">
+        <label class="form-label">Costo en bolsa:</label>
+        <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01">
+    </div>
+
+    <!-- Tipo carta (oculto) -->
+    <input type="hidden" name="tipo_carta" value="entrenador">
+
+    <!-- Subtipo -->
+    <div class="mb-3">
+        <label class="form-label">Subtipo:</label>
+        <select name="subtipo" class="form-control" required>
+            <option value="">Selecciona un subtipo</option>
+            <option value="Objeto">Objeto</option>
+            <option value="Partidario">Partidario</option>
+            <option value="Estadio">Estadio</option>
+            <option value="Herramienta Pokémon">Herramienta Pokémon</option>
+            <option value="MT">MT</option>
+        </select>
+    </div>
+
+    <!-- Efecto -->
+    <div class="mb-3">
+        <label class="form-label">Efecto:</label>
+        <textarea name="efecto" required class="form-control" rows="3" placeholder="Describe el efecto de la carta"></textarea>
+    </div>
+
+    <!-- Tiempo -->
+    <div class="mb-3">
+        <label class="form-label">Tiempo de uso:</label>
+        <input type="text" name="tiempo" required class="form-control" placeholder="Ej: Durante tu turno, Al comienzo de la partida...">
+    </div>
+
+    <!-- Imagen
+    <div class="mb-3">
+        <label>Imagen (opcional):</label>
+        <input type="file" name="imagen" class="form-control">
+    </div>-->
+
+    <button type="submit" class="btn btn-success">Crear carta</button>
+</form>
+</div>
+
+{% endblock %}

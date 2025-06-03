@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %} Cartas de Entrenador - Visualización {% endblock %}
+{% block content %}
+<style>
+    .body_container {
+        width: 75%;
+        margin: 20px auto 0;
+    }
+    .found {
+        background-color: rgba(255, 255, 255, 0.91);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="body_container found">
+    <!-- Buscador -->
+    <form class="mb-4" method="get" action="/ver_entrenador">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ request.query_params.q | default('') }}">
+            <button class="btn btn-outline-primary" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    {% if not entrenadores %}
+        <div class="alert alert-warning mt-4">No se encontraron cartas de entrenador con ese nombre.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tipo Carta</th>
+                        <th>Subtipo</th>
+                        <th>Efecto</th>
+                        <th>Tiempo</th>
+                        <th>Rareza</th>
+                        <th>Costo en Bolsa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for carta in entrenadores %}
+                    <tr>
+                        <td>{{ carta.id }}</td>
+                        <td>{{ carta.nombre }}</td>
+                        <td>{{ carta.tipo_carta.value }}</td>
+                        <td>{{ carta.subtipo }}</td>
+                        <td>{{ carta.efecto }}</td>
+                        <td>{{ carta.tiempo }}</td>
+                        <td>{{ carta.rare.value }}</td>
+                        <td>{{ carta.costo_en_bolsa }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
