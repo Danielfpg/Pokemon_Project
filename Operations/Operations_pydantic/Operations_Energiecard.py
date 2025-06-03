@@ -13,18 +13,18 @@ ENERGIA_DB = "Energia.csv"
 BACKUP_DATABASE = "Backup.csv"
 
 
-# Mostrar todas las cartas Energía
+# Mostrar todas las cartas Energia
 def leer_cartas_energia() -> List[CartaEnergia]:
     return [c for c in leer_todas_las_cartas() if isinstance(c, CartaEnergia)]
 
 
-# Buscar carta Energía por nombre
+# Buscar carta Energia por nombre
 def buscar_energia_por_nombre(nombre: str) -> Optional[CartaEnergia]:
     carta = buscar_carta_por_nombre(nombre)
     return carta if isinstance(carta, CartaEnergia) else None
 
 
-# Crear carta Energía
+# Crear carta Energia
 def crear_carta_energia(carta: CartaEnergia) -> CartaEnergia:
     if id_existe(carta.id):
         raise ValueError("Ya existe una carta con ese ID.")
@@ -32,12 +32,12 @@ def crear_carta_energia(carta: CartaEnergia) -> CartaEnergia:
     return carta
 
 
-# Guardar (agregar) carta Energía
+# Guardar (agregar) carta Energia
 def agregar_carta_energia(carta: CartaEnergia) -> CartaEnergia:
     return crear_carta_energia(carta)
 
 
-# Modificar carta Energía
+# Modificar carta Energia
 def modificar_carta_energia(nombre: str, datos: dict) -> Optional[CartaEnergia]:
     cartas = leer_cartas_energia()
     modificada = None
@@ -61,7 +61,7 @@ def modificar_carta_energia(nombre: str, datos: dict) -> Optional[CartaEnergia]:
     return modificada
 
 
-# Eliminar carta Energía (la mueve a backup)
+# Eliminar carta Energia (la mueve a backup)
 def eliminar_carta_energia(nombre: str) -> Optional[CartaEnergia]:
     cartas = leer_cartas_energia()
     nuevas = []

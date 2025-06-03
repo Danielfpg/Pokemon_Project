@@ -3,15 +3,20 @@ from enum import Enum
 class TipoCartaEnum(str, Enum):
     pokemon = "pokemon"
     entrenador = "entrenador"
-    energia = "energía"
+    energia = "energia"
 
 class TipoEnergiaEnum(str, Enum):
     fuego = "fuego"
     agua = "agua"
-    planta="planta"
+    planta = "planta"
     incolora = "incolora"
+    rayo = "rayo"
+    psiquico = "psiquico"
+    lucha = "lucha"
+    oscura = "oscura"
+    metalica = "metalica"
+    hada = "hada"
 
-from enum import Enum
 
 class RarezaEnum(str, Enum):
     # Rarezas básicas

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Cartas de Entrenador - Visualización {% endblock %}
+{% block title %} Cartas de Energia - Visualización {% endblock %}
 {% block content %}
 <style>
     .body_container {
@@ -15,15 +15,15 @@
 
 <div class="body_container found">
     <!-- Buscador -->
-    <form class="mb-4" method="get" action="/ver_entrenador">
+    <form class="mb-4" method="get" action="/ver_energia">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ request.query_params.q | default('') }}">
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
         </div>
     </form>
 
-    {% if not entrenadores %}
-        <div class="alert alert-warning mt-4">No se encontraron cartas de entrenador con ese nombre.</div>
+    {% if not energias %}
+        <div class="alert alert-warning mt-4">No se encontraron cartas de energia con ese nombre.</div>
     {% else %}
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
@@ -32,32 +32,29 @@
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Tipo Carta</th>
-                        <th>Subtipo</th>
-                        <th>Efecto</th>
-                        <th>Tiempo</th>
                         <th>Rareza</th>
+                        <th>Tipo Energia</th>
+                        <th>Especial</th>
                         <th>Costo en Bolsa</th>
                         <th>Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for carta in entrenadores %}
+                    {% for carta in energias %}
                     <tr>
                         <td>{{ carta.id }}</td>
                         <td>{{ carta.nombre }}</td>
                         <td>{{ carta.tipo_carta.value }}</td>
-                        <td>{{ carta.subtipo }}</td>
-                        <td>{{ carta.efecto }}</td>
-                        <td>{{ carta.tiempo }}</td>
                         <td>{{ carta.rare.value }}</td>
+                        <td>{{ carta.tipo.value }}</td>
+                        <td>{{ "Sí" if carta.especial else "No" }}</td>
                         <td>{{ carta.costo_en_bolsa }}</td>
                         <td>
-                            <form method="post" action="/cartas/eliminar/entrenador" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
+                            <form method="post" action="/cartas/eliminar/energia" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
                                 <input type="hidden" name="nombre" value="{{ carta.nombre }}">
                                 <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                             </form>
                         </td>
-
                     </tr>
                     {% endfor %}
                 </tbody>

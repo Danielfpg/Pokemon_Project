@@ -105,28 +105,28 @@ async def obtener_cartas_energia_endpoint(db: AsyncSession = Depends(get_session
 async def obtener_carta_energia_por_nombre_endpoint(nombre: str, db: AsyncSession = Depends(get_session)):
     carta = await obtener_carta_energia_por_nombre(db, nombre)
     if carta is None:
-        raise HTTPException(status_code=404, detail="Carta Energía no encontrada")
+        raise HTTPException(status_code=404, detail="Carta Energia no encontrada")
     return carta
 
 @app.put("/cartas/energia/{nombre}", response_model=CartaEnergia)
 async def modificar_carta_energia_endpoint(nombre: str, datos_actualizados: dict, db: AsyncSession = Depends(get_session)):
     carta = await modificar_carta_energia(db, nombre, datos_actualizados)
     if carta is None:
-        raise HTTPException(status_code=404, detail="Carta Energía no encontrada")
+        raise HTTPException(status_code=404, detail="Carta Energia no encontrada")
     return carta
 
 @app.delete("/cartas/energia/{nombre}", response_model=CartaEnergia)
 async def eliminar_carta_energia_endpoint(nombre: str, db: AsyncSession = Depends(get_session)):
     carta = await eliminar_carta_energia(db, nombre)
     if carta is None:
-        raise HTTPException(status_code=404, detail="Carta Energía no encontrada")
+        raise HTTPException(status_code=404, detail="Carta Energia no encontrada")
     return carta
 
 @app.post("/cartas/energia/restaurar/{nombre}", response_model=CartaEnergia)
 async def restaurar_carta_energia_endpoint(nombre: str, db: AsyncSession = Depends(get_session)):
     carta = await restaurar_carta_energia(db, nombre)
     if carta is None:
-        raise HTTPException(status_code=404, detail="Carta Energía no encontrada en el respaldo")
+        raise HTTPException(status_code=404, detail="Carta Energia no encontrada en el respaldo")
     return carta
 
 #--------------------
