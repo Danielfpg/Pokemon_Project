@@ -2,19 +2,38 @@
 {% block title %} Inicio - Visualizando {% endblock %}
 {% block content %}
 <style>
-    .body_container {
-      width: 75%;
-      margin: 20px auto 0;
+  .body_container {
+    width: 85%;
+    margin: 20px auto 0;
+  }
 
-    }
-    .found {
-      background-color: rgba(255, 255, 255, 0.91);
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
+  .found {
+    background-color: rgba(255, 255, 255, 0.91);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+
+  .pokemon-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+    height: 100%;
+  }
+
+  .pokemon-card:hover {
+    transform: scale(1.01);
+  }
+
+  .pokemon-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
 </style>
+
 <div class="body_container found">
- <!-- Buscador -->
+  <!-- Buscador -->
   <form class="mb-4" method="get" action="/ver_pokemones">
     <div class="input-group">
       <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ request.query_params.q | default('') }}">
@@ -25,43 +44,46 @@
   {% if not pokemones %}
     <div class="alert alert-warning mt-4">No se encontraron cartas con ese nombre.</div>
   {% else %}
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Tipo Carta</th>
-            <th>Tipo</th>
-            <th>Rareza</th>
-            <th>Costo en Bolsa</th>
-            <th>HP</th>
-            <th>Ataque</th>
-            <th>Defensa</th>
-            <th>Velocidad</th>
-            <th>Ataque Esp.</th>
-            <th>Defensa Esp.</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for pokemon in pokemones %}
-          <tr>
-            <td>{{ pokemon.id }}</td>
-            <td>{{ pokemon.nombre }}</td>
-            <td>{{ pokemon.tipo_carta.value }}</td>
-            <td>{{ pokemon.tipo}}</td>
-            <td>{{ pokemon.rare.value }}</td>
-            <td>{{ pokemon.costo_en_bolsa }}</td>
-            <td>{{ pokemon.stats.hp }}</td>
-            <td>{{ pokemon.stats.attack }}</td>
-            <td>{{ pokemon.stats.defense }}</td>
-            <td>{{ pokemon.stats.speed }}</td>
-            <td>{{ pokemon.stats.special_atk }}</td>
-            <td>{{ pokemon.stats.special_def }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="row g-3">
+      {% for pokemon in pokemones %}
+      <div class="col-md-6">
+        <div class="card pokemon-card p-3">
+          <div class="row g-2 align-items-center">
+            <!-- Columna Imagen -->
+            <div class="col-5 text-center">
+              {% if pokemon.imagen %}
+                <img src="{{ pokemon.imagen }}" class="pokemon-image" alt="Imagen de {{ pokemon.nombre }}">
+              {% else %}
+                <img src="https://via.placeholder.com/200x280?text=Sin+Imagen" class="pokemon-image" alt="Sin imagen">
+              {% endif %}
+            </div>
+
+            <!-- Columna Info -->
+            <div class="col-7">
+              <h5><strong>{{ pokemon.nombre }}</strong></h5>
+              <p class="mb-1"><strong>{{ pokemon.tipo_carta.value }}</strong></p>
+              <p class="mb-1">{{ pokemon.tipo }}</p>
+              <p class="mb-1">{{ pokemon.rare.value }}</p>
+              <p class="mb-2">Costo: <strong>{{ pokemon.costo_en_bolsa }}</strong></p>
+
+              <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#stats{{ pokemon.id }}">Stats</button>
+
+              <div class="collapse mt-2" id="stats{{ pokemon.id }}">
+                <div class="row">
+                  <div class="col-6"><strong>HP:</strong> {{ pokemon.stats.hp }}</div>
+                  <div class="col-6"><strong>Ataque:</strong> {{ pokemon.stats.attack }}</div>
+                  <div class="col-6"><strong>Defensa:</strong> {{ pokemon.stats.defense }}</div>
+                  <div class="col-6"><strong>Velocidad:</strong> {{ pokemon.stats.speed }}</div>
+                  <div class="col-6"><strong>Atq. Esp.:</strong> {{ pokemon.stats.special_atk }}</div>
+                  <div class="col-6"><strong>Def. Esp.:</strong> {{ pokemon.stats.special_def }}</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   {% endif %}
 </div>
