@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .body_container {
+        width: 75%;
+        margin: 20px auto 0;
+    }
+    .found {
+        background-color: rgba(255, 255, 255, 0.91);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="body_container found">
+<h2>Editar carta Pokémon</h2>
+<form method="post" action="/cartas/editar/pokemon/{{ carta.nombre }}">
+    <!-- Nombre (no editable) -->
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" required class="form-control" value="{{ carta.nombre }}" readonly>
+    </div>
+
+    <!-- Rareza -->
+        <div class="mb-3">
+            <label class="form-label">Rareza:</label>
+            <select name="rare" class="form-control" required>
+                {% for categoria, rarezas in rareza_categorizada.items() %}
+                    <optgroup label="{{ categoria }}">
+                        {% for rareza in rarezas %}
+                            <option value="{{ rareza }}" {% if rareza == carta.rare.value %}selected{% endif %}>{{ rareza.replace('_', ' ').capitalize() }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+        </div>
+    <!-- Costo en bolsa -->
+    <div class="mb-3">
+        <label class="form-label">Costo en bolsa:</label>
+        <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01" value="{{ carta.costo_en_bolsa }}">
+    </div>
+
+    <!-- Tipo carta (oculto) -->
+    <input type="hidden" name="tipo_carta" value="pokemon">
+
+    <!-- Tipo primario -->
+    <div class="mb-3">
+        <label class="form-label">Tipo Pokémon primario</label>
+        <select id="tipo1" name="tipo1" class="form-control" required>
+            <option value="">Selecciona un tipo</option>
+            {% for tipo in tipos %}
+                <option value="{{ tipo }}" {% if tipo == tipo1 %}selected{% endif %}>{{ tipo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Tipo secundario -->
+    <div class="mb-3">
+        <label class="form-label">Tipo Pokémon secundario (opcional)</label>
+        <select id="tipo2" name="tipo2" class="form-control">
+            <option value="">Ninguno</option>
+            {% for tipo in tipos %}
+                <option value="{{ tipo }}" {% if tipo == tipo2 %}selected{% endif %}>{{ tipo }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type="hidden" name="tipo" id="tipo-combinado" value="{{ carta.tipo }}">
+
+    <script>
+        const tipo1 = document.getElementById('tipo1');
+        const tipo2 = document.getElementById('tipo2');
+        const tipoCombinado = document.getElementById('tipo-combinado');
+
+        function actualizarTipo() {
+            const t1 = tipo1.value;
+            const t2 = tipo2.value;
+            if (t1 && t2 && t1 !== t2) {
+                tipoCombinado.value = `${t1}, ${t2}`;
+            } else {
+                tipoCombinado.value = t1;
+            }
+        }
+
+        tipo1.addEventListener('change', actualizarTipo);
+        tipo2.addEventListener('change', actualizarTipo);
+    </script>
+
+    <!-- Estadísticas -->
+    <h4>Estadísticas</h4>
+    <div class="mb-3">
+        <label>HP:</label>
+        <input type="number" name="hp" required class="form-control" min="0" max="1000" value="{{ carta.stats.hp }}">
+    </div>
+    <div class="mb-3">
+        <label>Ataque:</label>
+        <input type="number" name="attack" required class="form-control" min="0" max="330" value="{{ carta.stats.attack }}">
+    </div>
+    <div class="mb-3">
+        <label>Defensa:</label>
+        <input type="number" name="defense" required class="form-control" min="0" max="255" value="{{ carta.stats.defense }}">
+    </div>
+    <div class="mb-3">
+        <label>Velocidad:</label>
+        <input type="number" name="speed" required class="form-control" min="0" max="255" value="{{ carta.stats.speed }}">
+    </div>
+    <div class="mb-3">
+        <label>Ataque especial:</label>
+        <input type="number" name="special_atk" required class="form-control" min="0" max="255" value="{{ carta.stats.special_atk }}">
+    </div>
+    <div class="mb-3">
+        <label>Defensa especial:</label>
+        <input type="number" name="special_def" required class="form-control" min="0" max="255" value="{{ carta.stats.special_def }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>
+</div>
+{% endblock %}

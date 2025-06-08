@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request, Form, Depends, Query,HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
@@ -13,8 +14,9 @@ from Models.Model_db.Trainer_Backup import CartaEntrenadorBackupDB
 #pokemon
 from Models.Model_db.Model_Pokemon_card_db import CartaPokemonDB
 from Models.Model_pydantic.Model_stats import Stats
-from Operations.Operations_db.db_Operations_Pokemon_Card import crear_carta_pokemon
+from Operations.Operations_db.db_Operations_Pokemon_Card import crear_carta_pokemon,eliminar_carta_pokemon,modificar_carta_pokemon,restaurar_carta_pokemon,obtener_carta_pokemon_por_nombre
 from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
+from Models.enums import RarezaEnum
 #energia
 from Models.Model_db.Model_Energie_card_db import CartaEnergiaDB
 from Operations.Operations_db.db_Operations_Energie_Card import crear_carta_energia, eliminar_carta_energia, \
@@ -85,6 +87,94 @@ async def agregar_carta_pokemon_form(
     await crear_carta_pokemon(db, carta)
 
     return RedirectResponse(url="/", status_code=303)
+
+
+@router.get("/cartas/editar/pokemon/{nombre}")
+async def formulario_editar_pokemon(nombre: str, request: Request, db: AsyncSession = Depends(get_session)):
+    carta = await obtener_carta_pokemon_por_nombre(db, nombre)
+    if not carta:
+        raise HTTPException(status_code=404, detail="Carta no encontrada")
+
+    tipos_disponibles = [
+        "Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno",
+        "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"
+    ]
+
+    tipo_split = [t.strip() for t in carta.tipo.split(',')]
+    tipo1 = tipo_split[0] if len(tipo_split) > 0 else ""
+    tipo2 = tipo_split[1] if len(tipo_split) > 1 else ""
+
+    rareza_categorizada = {
+        "Rarezas básicas": [
+            "común", "poco_común", "rara", "rara_holográfica",
+            "doble_rara", "rara_de_ilustración", "rara_de_ilustración_especial", "rara_brillante"
+        ],
+        "Rarezas especiales (modernas)": [
+            "rara_de_personaje", "super_rara_de_personaje", "rara_de_arte", "rara_de_arte_especial",
+            "súper_rara_brillante", "ultra_rara", "híper_rara", "rara_secreta", "promocional"
+        ],
+        "Rarezas históricas / específicas de sets": [
+            "rara_radiant", "rara_asombrosa", "legendaria", "rara_prime", "especie_delta", "ace_spec"
+        ],
+        "No son rarezas, pero se suelen tratar como tales": [
+            "ex", "gx", "v", "vmax", "vstar", "tag team"
+        ]
+    }
+
+    return templates.TemplateResponse("mod_pokemon.html", {
+        "request": request,
+        "carta": carta,
+        "tipo1": tipo1,
+        "tipo2": tipo2,
+        "tipos": tipos_disponibles,
+        "rareza_categorizada": rareza_categorizada
+    })
+
+@router.post("/cartas/editar/pokemon/{nombre}")
+async def editar_pokemon(
+    nombre: str,
+    request: Request,
+    rare: str = Form(...),
+    costo_en_bolsa: float = Form(...),
+    tipo_carta: str = Form(...),
+    tipo: str = Form(...),
+    stats_hp: int = Form(..., alias="hp"),
+    stats_attack: int = Form(..., alias="attack"),
+    stats_defense: int = Form(..., alias="defense"),
+    stats_speed: int = Form(..., alias="speed"),
+    stats_special_atk: int = Form(..., alias="special_atk"),
+    stats_special_def: int = Form(..., alias="special_def"),
+    db: AsyncSession = Depends(get_session)
+):
+    carta = await obtener_carta_pokemon_por_nombre(db, nombre)
+    if not carta:
+        raise HTTPException(status_code=404, detail="Carta no encontrada")
+
+    datos_actualizados = {
+        "rare": rare,
+        "costo_en_bolsa": costo_en_bolsa,
+        "tipo_carta": tipo_carta,
+        "tipo": tipo,
+    }
+
+    # Actualizar carta
+    for key, value in datos_actualizados.items():
+        setattr(carta, key, value)
+
+    # Actualizar stats
+    if carta.stats:
+        carta.stats.hp = stats_hp
+        carta.stats.attack = stats_attack
+        carta.stats.defense = stats_defense
+        carta.stats.speed = stats_speed
+        carta.stats.special_atk = stats_special_atk
+        carta.stats.special_def = stats_special_def
+
+    await db.commit()
+    await db.refresh(carta)
+
+    return RedirectResponse(url="/", status_code=303)
+
 @router.get("/ver_pokemones", response_class=HTMLResponse, tags=["Pokémon"])
 async def ver_pokemones(
     request: Request,
@@ -103,6 +193,7 @@ async def ver_pokemones(
         "request": request,
         "pokemones": pokemones
     })
+
 #--------------------
 #ENTRENADOR
 #--------------------
