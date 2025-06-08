@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .body_container {
+        width: 75%;
+        margin: 20px auto 0;
+    }
+    .found {
+        background-color: rgba(255, 255, 255, 0.91);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="body_container found">
+<h2>Editar carta Energía</h2>
+<form method="post" action="/cartas/editar/energia/{{ carta.nombre }}" enctype="multipart/form-data">
+    <!-- ID -->
+    <div class="mb-3">
+        <label class="form-label">ID:</label>
+        <input type="number" step="1" name="id" required class="form-control" min="1" value="{{ carta.id }}">
+    </div>
+
+    <!-- Nombre (NO editable) -->
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        <input type="text" name="nombre" required class="form-control" value="{{ carta.nombre }}" readonly>
+    </div>
+
+    <!-- Rareza -->
+    <div class="mb-3">
+        <label class="form-label">Rareza:</label>
+        <select name="rare" class="form-control" required>
+            {% for rareza in rarezas %}
+                <option value="{{ rareza.value }}" {% if carta.rare == rareza.value %}selected{% endif %}>
+                    {{ rareza.value.replace("_", " ").capitalize() }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- Costo en bolsa -->
+    <div class="mb-3">
+        <label class="form-label">Costo en bolsa:</label>
+        <input type="number" step="0.01" name="costo_en_bolsa" required class="form-control" min="0.01" value="{{ carta.costo_en_bolsa }}">
+    </div>
+
+    <!-- Tipo carta (oculto) -->
+    <input type="hidden" name="tipo_carta" value="energia">
+
+    <!-- Tipo de energía -->
+    <div class="mb-3">
+        <label class="form-label">Tipo de energía:</label>
+        <select name="tipo" class="form-control" required>
+            {% for tipo in ["fuego", "agua", "planta", "incolora", "rayo", "psiquico", "lucha", "oscura", "metalica", "hada"] %}
+                <option value="{{ tipo }}" {% if carta.tipo == tipo %}selected{% endif %}>{{ tipo.capitalize() }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- ¿Especial? -->
+    <div class="mb-3 form-check">
+        <input type="checkbox" name="especial" class="form-check-input" id="especialCheck" {% if carta.especial %}checked{% endif %}>
+        <label class="form-check-label" for="especialCheck">Especial</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Actualizar carta</button>
+</form>
+</div>
+
+{% endblock %}

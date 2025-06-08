@@ -1,6 +1,6 @@
 import csv
 from typing import List, Optional
-from Models.Model_db.Model_Energie_card_db import CartaEnergia
+from Models.Model_pydantic.Model_Energie_card import  CartaEnergia
 from Operations.Operations_pydantic.Operations_base import (
     leer_todas_las_cartas,
     buscar_carta_por_nombre,

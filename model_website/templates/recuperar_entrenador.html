@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Cartas de Entrenador - Visualización {% endblock %}
+{% block title %} Cartas de Entrenador - Respaldo {% endblock %}
 {% block content %}
 <style>
     .body_container {
@@ -34,7 +34,7 @@
 
 <div class="body_container found">
     <!-- Buscador -->
-    <form class="mb-4" method="get" action="/ver_entrenador">
+    <form class="mb-4" method="get" action="/recuperar_entrenador">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ request.query_params.q | default('') }}">
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
@@ -42,7 +42,7 @@
     </form>
 
     {% if not entrenadores %}
-        <div class="alert alert-warning mt-4">No se encontraron cartas de entrenador con ese nombre.</div>
+        <div class="alert alert-warning mt-4">No se encontraron cartas de entrenador en respaldo con ese nombre.</div>
     {% else %}
         <div class="row g-3">
             {% for carta in entrenadores %}
@@ -61,23 +61,17 @@
                         <!-- Columna Info -->
                         <div class="col-7">
                             <h5><strong>{{ carta.nombre }}</strong></h5>
-                            <p class="mb-1"><strong>{{ carta.tipo_carta.value }}</strong></p>
+                            <p class="mb-1"><strong>{{ carta.tipo_carta }}</strong></p>
                             <p class="mb-1">{{ carta.subtipo }}</p>
-                            <p class="mb-1">Rareza: {{ carta.rare.value }}</p>
-                            <p class="mb-1">Costo: {{ carta.costo_en_bolsa }}</p>
+                            <p class="mb-1">Rareza: {{ carta.rare }}</p>
+                            <p class="mb-1">Costo: {{carta.costo_en_bolsa}}</p>
                             <p class="mb-1"><em>{{ carta.efecto }}</em></p>
                             <p class="mb-2">Tiempo: {{ carta.tiempo }}</p>
 
-                            <!-- Botón Eliminar -->
-                            <form method="post" action="/cartas/eliminar/entrenador" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
+                            <!-- Botón Restaurar -->
+                            <form method="post" action="/cartas/restaurar/entrenador" onsubmit="return confirm('¿Deseas restaurar esta carta?');">
                                 <input type="hidden" name="nombre" value="{{ carta.nombre }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
-                            <br>
-                            <!-- Botón Modificar-->
-                            <form method="post" action="/cartas/editar/entrenador/{{ carta.nombre }}" onsubmit="return confirm('¿Estás seguro de que deseas modificar esta carta?');">
-                                <input type="hidden" name="nombre" value="{{ carta.nombre }}">
-                                <a href="/cartas/editar/entrenador/{{ carta.nombre | urlencode }}" class="btn btn-primary">Editar</a>
+                                <button type="submit" class="btn btn-success btn-sm">Restaurar</button>
                             </form>
                         </div>
                     </div>

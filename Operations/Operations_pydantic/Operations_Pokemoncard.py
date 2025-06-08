@@ -10,7 +10,7 @@ from Operations.Operations_pydantic.Operations_base import (
 )
 
 POKEMON_DB = "Pokemon.csv"
-BACKUP_DATABASE = "Backup.csv"
+BACKUP_DATABASE = "pokemonbackup.csv"
 
 
 # Mostrar todas las cartas Pokémon

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Cartas de Energia - Visualización {% endblock %}
+{% block title %} Cartas de Energía - Respaldo {% endblock %}
 {% block content %}
 <style>
     .body_container {
@@ -34,7 +34,7 @@
 
 <div class="body_container found">
     <!-- Buscador -->
-    <form class="mb-4" method="get" action="/ver_energia">
+    <form class="mb-4" method="get" action="/recuperar_energia">
         <div class="input-group">
             <input type="text" name="q" class="form-control" placeholder="Buscar por nombre..." value="{{ request.query_params.q | default('') }}">
             <button class="btn btn-outline-primary" type="submit">Buscar</button>
@@ -42,7 +42,7 @@
     </form>
 
     {% if not energias %}
-        <div class="alert alert-warning mt-4">No se encontraron cartas de energía con ese nombre.</div>
+        <div class="alert alert-warning mt-4">No se encontraron cartas de energía en respaldo con ese nombre.</div>
     {% else %}
         <div class="row g-3">
             {% for carta in energias %}
@@ -61,22 +61,16 @@
                         <!-- Columna Info -->
                         <div class="col-7">
                             <h5><strong>{{ carta.nombre }}</strong></h5>
-                            <p class="mb-1"><strong>{{ carta.tipo_carta.value }}</strong></p>
-                            <p class="mb-1">Tipo Energía: {{ carta.tipo.value }}</p>
-                            <p class="mb-1">Rareza: {{ carta.rare.value }}</p>
+                            <p class="mb-1"><strong>{{ carta.tipo_carta }}</strong></p>
+                            <p class="mb-1">Tipo Energía: {{ carta.tipo }}</p>
+                            <p class="mb-1">Rareza: {{ carta.rare }}</p>
                             <p class="mb-1">Especial: {{ "Sí" if carta.especial else "No" }}</p>
                             <p class="mb-2">Costo: {{ carta.costo_en_bolsa }}</p>
 
-                            <!-- Botón Eliminar -->
-                            <form method="post" action="/cartas/eliminar/energia" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta carta?');">
+                            <!-- Botón Restaurar -->
+                            <form method="post" action="/cartas/restaurar/energia" onsubmit="return confirm('¿Deseas restaurar esta carta?');">
                                 <input type="hidden" name="nombre" value="{{ carta.nombre }}">
-                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                            </form>
-                            <br>
-                            <!-- Botón Modificar-->
-                            <form method="post" action="/cartas/editar/energia/{{ carta.nombre }}" onsubmit="return confirm('¿Estás seguro de que deseas modificar esta carta?');">
-                                <input type="hidden" name="nombre" value="{{ carta.nombre }}">
-                                <a href="/cartas/editar/energia/{{ carta.nombre | urlencode }}" class="btn btn-primary">Editar</a>
+                                <button type="submit" class="btn btn-success btn-sm">Restaurar</button>
                             </form>
                         </div>
                     </div>

@@ -1,0 +1,35 @@
+# === Entornos virtuales ===
+venv/
+.env
+.env.*
+variables.env
+
+# === Bases de datos locales ===
+*.db
+*.sqlite3
+
+# === Archivos de caché y bytecode de Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# === Archivos de log ===
+*.log
+
+# === Configuración de editores ===
+.vscode/
+.idea/
+*.swp
+
+# === Archivos del sistema ===
+.DS_Store
+Thumbs.db
+
+# === Archivos de compilación e instalación ===
+build/
+dist/
+*.egg-info/
+
+# === Supabase ===
+.supabase/

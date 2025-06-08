@@ -1,1 +1,2 @@
-id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial
+id,nombre,rare,costo_en_bolsa,tipo,especial
+101, Energía Psíquica Básica,4075.28,energia,psiquico,False

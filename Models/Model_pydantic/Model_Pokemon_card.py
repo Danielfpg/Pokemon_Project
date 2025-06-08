@@ -11,4 +11,3 @@ class CartaPokemon(MainModelBase):
     model_config = {
         "from_attributes": True
     }
-

@@ -1,3 +1,4 @@
+
 from pydantic import BaseModel, Field
 from Models.enums import RarezaEnum
 

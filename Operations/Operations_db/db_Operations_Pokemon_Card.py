@@ -5,6 +5,14 @@ from Models.Model_db.Pokemon_Backup import CartaPokemonBackupDB
 from sqlalchemy.exc import SQLAlchemyError
 from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Models.Model_db.Model_stats_db import StatsDB
+import csv
+import os
+CSV_FILE = "Pokemon.csv"
+CSV_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo",
+               "hp", "ataque", "defensa", "velocidad", "atk.especial","def.especial"]
+BACKUP_CSV = "PokemonBackup.csv"
+BACKUP_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo", "stats_id"]
+
 # Crear una nueva carta Pokémon
 async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
     try:
@@ -24,6 +32,7 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
             if t not in tipos_validos:
                 raise ValueError(f"Tipo de Pokémon inválido: {t}")
 
+        # Crear objetos DB
         stats_db = StatsDB(**stats_data)
         carta_db = CartaPokemonDB(**carta_data)
         carta_db.stats = stats_db
@@ -32,10 +41,32 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
         await db.commit()
         await db.refresh(carta_db)
 
+        # Guardar en archivo CSV
+        archivo_existe = os.path.exists(CSV_FILE)
+        with open(CSV_FILE, mode="a", newline="", encoding="utf-8") as archivo:
+            writer = csv.DictWriter(archivo, fieldnames=CSV_HEADERS)
+            if not archivo_existe:
+                writer.writeheader()
+            writer.writerow({
+                "id": carta_db.id,
+                "nombre": carta_db.nombre,
+                "rare": carta_db.rare,
+                "costo_en_bolsa": carta_db.costo_en_bolsa,
+                "tipo_carta": carta_db.tipo_carta,
+                "tipo": carta_db.tipo,
+                "hp": stats_db.hp,
+                "ataque": stats_db.attack,
+                "defensa": stats_db.defense,
+                "velocidad": stats_db.speed,
+                "atk.especial": stats_db.special_atk,
+                "def.especial": stats_db.special_def
+            })
+
         return carta_db
     except (SQLAlchemyError, ValueError) as e:
         await db.rollback()
         raise Exception(f"Error al crear carta Pokémon: {str(e)}")
+
 
 
 # Obtener todas las cartas Pokémon
@@ -81,7 +112,7 @@ async def eliminar_carta_pokemon(db: AsyncSession, nombre: str):
         if not carta:
             return None
 
-        # Hacer un backup de la carta antes de eliminarla
+        # Backup en la base de datos
         carta_backup = CartaPokemonBackupDB(
             id=carta.id,
             nombre=carta.nombre,
@@ -93,12 +124,29 @@ async def eliminar_carta_pokemon(db: AsyncSession, nombre: str):
         )
         db.add(carta_backup)
 
+        # Guardar también en el archivo CSV de backup
+        archivo_existe = os.path.exists(BACKUP_CSV)
+        with open(BACKUP_CSV, mode="a", newline="", encoding="utf-8") as archivo:
+            writer = csv.DictWriter(archivo, fieldnames=BACKUP_HEADERS)
+            if not archivo_existe:
+                writer.writeheader()
+            writer.writerow({
+                "id": carta.id,
+                "nombre": carta.nombre,
+                "rare": carta.rare,
+                "costo_en_bolsa": carta.costo_en_bolsa,
+                "tipo_carta": carta.tipo_carta,
+                "tipo": carta.tipo,
+                "stats_id": carta.stats.id if carta.stats else None
+            })
+
         await db.delete(carta)
         await db.commit()
         return carta_backup
     except SQLAlchemyError as e:
         await db.rollback()
-        raise  RuntimeError("Error al eliminar carta Pokémon: ") from e
+        raise RuntimeError("Error al eliminar carta Pokémon: ") from e
+
 
 # Restaurar una carta Pokémon desde un backup
 async def restaurar_carta_pokemon(db: AsyncSession, nombre: str):
@@ -120,10 +168,37 @@ async def restaurar_carta_pokemon(db: AsyncSession, nombre: str):
             stats_id=backup.stats_id
         )
         db.add(carta_restaurada)
-
         await db.delete(backup)
         await db.commit()
         await db.refresh(carta_restaurada)
+
+        # 1. Eliminar del archivo CSV de backup
+        if os.path.exists(BACKUP_CSV):
+            with open(BACKUP_CSV, newline='', encoding='utf-8') as archivo:
+                filas = list(csv.DictReader(archivo))
+
+            nuevas_filas = [fila for fila in filas if fila["nombre"] != nombre]
+
+            with open(BACKUP_CSV, mode="w", newline="", encoding="utf-8") as archivo:
+                writer = csv.DictWriter(archivo, fieldnames=BACKUP_HEADERS)
+                writer.writeheader()
+                writer.writerows(nuevas_filas)
+
+        # 2. Agregar al CSV de cartas Pokémon
+        with open(CSV_FILE, mode="a", newline="", encoding="utf-8") as archivo:
+            writer = csv.DictWriter(archivo, fieldnames=CSV_HEADERS)
+            if not os.path.exists(CSV_FILE) or os.stat(CSV_FILE).st_size == 0:
+                writer.writeheader()
+            writer.writerow({
+                "id": carta_restaurada.id,
+                "nombre": carta_restaurada.nombre,
+                "rare": carta_restaurada.rare,
+                "costo_en_bolsa": carta_restaurada.costo_en_bolsa,
+                "tipo_carta": carta_restaurada.tipo_carta,
+                "tipo": carta_restaurada.tipo,
+                "hp": "", "ataque": "", "defensa": "", "velocidad": "", "especial": ""
+            })
+
         return carta_restaurada
     except SQLAlchemyError as e:
         await db.rollback()
