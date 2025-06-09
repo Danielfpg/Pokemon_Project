@@ -7,7 +7,7 @@ import csv
 import os
 
 ENERGIA_CSV = "Energia.csv"
-ENERGIA_BACKUP_CSV = "Energiebackup.csv"
+ENERGIA_BACKUP_CSV = "Energiabackup.csv"
 
 ENERGIA_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo", "especial"]
 async def crear_carta_energia(db: AsyncSession, carta: CartaEnergia):
@@ -79,7 +79,7 @@ async def eliminar_carta_energia(db: AsyncSession, nombre: str):
     await db.delete(carta)
     await db.commit()
 
-    # Guardar en Energiebackup.csv
+    # Guardar en Energiabackup.csv
     archivo_existe = os.path.exists(ENERGIA_BACKUP_CSV)
     with open(ENERGIA_BACKUP_CSV, mode="a", newline="", encoding="utf-8") as archivo:
         writer = csv.DictWriter(archivo, fieldnames=ENERGIA_HEADERS)

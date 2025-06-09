@@ -8,7 +8,7 @@ import csv
 import os
 
 TRAINER_CSV = "Entrenador.csv"
-TRAINER_BACKUP_CSV = "Trainerbackup.csv"
+TRAINER_BACKUP_CSV = "Entrenadorbackup.csv"
 
 TRAINER_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "subtipo", "efecto", "tiempo"]
 
@@ -83,7 +83,7 @@ async def eliminar_carta_entrenador(db: AsyncSession, nombre: str):
 
     db.add(backup)
 
-    # Guardar en Trainerbackup.csv
+    # Guardar en Entrenadorbackup.csv
     archivo_existe = os.path.exists(TRAINER_BACKUP_CSV)
     with open(TRAINER_BACKUP_CSV, mode="a", newline="", encoding="utf-8") as archivo:
         writer = csv.DictWriter(archivo, fieldnames=TRAINER_HEADERS)
@@ -129,7 +129,7 @@ async def restaurar_carta_entrenador(db: AsyncSession, nombre: str):
     await db.commit()
     await db.refresh(carta_restaurada)
 
-    # 1. Eliminar de Trainerbackup.csv
+    # 1. Eliminar de Entrenadorbackup.csv
     if os.path.exists(TRAINER_BACKUP_CSV):
         with open(TRAINER_BACKUP_CSV, newline='', encoding='utf-8') as archivo:
             filas = list(csv.DictReader(archivo))

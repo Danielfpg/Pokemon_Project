@@ -1,3 +1,4 @@
 id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
 240,Hydreigon ex,ex,218314.71,pokemon,"Siniestro, Dragón",60,70,60,60,80,60
 1,string,común,1.0,pokemon,Agua,0,0,0,0,0,0
+51,Ditto VMAX,vmax,757467.2,pokemon,Normal,250,148,110,90,151,110

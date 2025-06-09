@@ -7,7 +7,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 #entrenador
 from Models.Model_pydantic.Model_Trainer_card import CartaEntrenador
-from Models.enums import RarezaEnum
 from Operations.Operations_db.db_Operations_Trainer_Card import crear_carta_entrenador,eliminar_carta_entrenador, restaurar_carta_entrenador,modificar_carta_entrenador,obtener_carta_entrenador_por_nombre
 from Models.Model_db.Model_Trainer_card_db import CartaEntrenadorDB
 from Models.Model_db.Trainer_Backup import CartaEntrenadorBackupDB

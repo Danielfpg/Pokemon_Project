@@ -16,8 +16,8 @@ DATABASES = {
 BACKUP_DATABASE ={
   "pokemonbackup.csv"
   "Backup.csv"
-  "Energiebackup.csv"
-  "Trainerbackup.csv"
+  "Energiabackup.csv"
+  "Entrenadorbackup.csv"
 }
 # Define los campos de columna específicos para cada tipo de carta
 column_fields_pokemon = ["id", "nombre", "tipo_carta", "rare", "costo_en_bolsa", "tipo", "especial", "subtipo",
