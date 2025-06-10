@@ -3,7 +3,7 @@ venv/
 .env
 .env.*
 variables.env
-
+supabaseV.env
 # === Bases de datos locales ===
 *.db
 *.sqlite3

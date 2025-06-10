@@ -25,7 +25,8 @@ from Operations.Operations_db.db_Operations_Energie_Card import (
     obtener_carta_energia_por_nombre,
     modificar_carta_energia,
     eliminar_carta_energia,
-    restaurar_carta_energia
+    restaurar_carta_energia,
+    regenerar_csv_energia
 )
 from Operations.Operations_db.db_Operations_Trainer_Card import (
     crear_carta_entrenador,
@@ -35,8 +36,10 @@ from Operations.Operations_db.db_Operations_Trainer_Card import (
     eliminar_carta_entrenador,
     restaurar_carta_entrenador
 )
-from db.db_connection import get_session, init_db
+from db.db_connection import get_session, init_db, async_session
 from model_website.home import router as home_router
+from db.load_csv_to_supabase import upload_csvs_to_supabase
+
 
 
 tags_metadata = [
@@ -54,7 +57,16 @@ app.include_router(home_router)
 
 @app.on_event("startup")
 async def startup_event():
+    upload_csvs_to_supabase(csv_folder="./CSV")
+
+@app.on_event("startup")
+async def startup_event():
     await init_db()
+
+@app.on_event("startup")
+async def startup_event():
+    async with async_session() as db:
+        await regenerar_csv_energia(db)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 router = APIRouter()

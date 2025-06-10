@@ -7,11 +7,32 @@ import unicodedata
 import csv
 import os
 
-TRAINER_CSV = "Entrenador.csv"
-TRAINER_BACKUP_CSV = "Entrenadorbackup.csv"
-
+CSV_FOLDER = "./CSV"
+TRAINER_CSV = os.path.join(CSV_FOLDER, "Entrenador.csv")
+TRAINER_BACKUP_CSV= os.path.join(CSV_FOLDER, "Entrenadorbackup.csv")
 TRAINER_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "subtipo", "efecto", "tiempo"]
+async def regenerar_csv_energia(db: AsyncSession):
+    from sqlalchemy.future import select
 
+    result = await db.execute(select(CartaEntrenadorDB))
+    cartas = result.scalars().all()
+
+    os.makedirs(CSV_FOLDER, exist_ok=True)
+
+    with open(TRAINER_CSV, mode="w", newline="", encoding="utf-8") as archivo:
+        writer = csv.DictWriter(archivo, fieldnames=TRAINER_HEADERS)
+        writer.writeheader()
+        for carta in cartas:
+            writer.writerow({
+                "id": carta.id,
+                "nombre": carta.nombre,
+                "rare": carta.rare,
+                "costo_en_bolsa": carta.costo_en_bolsa,
+                "tipo_carta": carta.tipo_carta,
+                "subtipo": carta.subtipo,
+                "efecto": carta.efecto,
+                "tiempo": carta.tiempo
+            })
 async def crear_carta_entrenador(db: AsyncSession, carta: CartaEntrenador):
     carta_db = CartaEntrenadorDB(**carta.dict())
     db.add(carta_db)

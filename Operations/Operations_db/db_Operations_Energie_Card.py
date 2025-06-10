@@ -6,10 +6,35 @@ from Models.Model_pydantic.Model_Energie_card import CartaEnergia
 import csv
 import os
 
-ENERGIA_CSV = "Energia.csv"
-ENERGIA_BACKUP_CSV = "Energiabackup.csv"
+CSV_FOLDER = "./CSV"
+ENERGIA_CSV = os.path.join(CSV_FOLDER, "Energia.csv")
+ENERGIA_BACKUP_CSV = os.path.join(CSV_FOLDER, "Energiabackup.csv")
 
 ENERGIA_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo", "especial"]
+
+
+async def regenerar_csv_energia(db: AsyncSession):
+    from sqlalchemy.future import select
+
+    result = await db.execute(select(CartaEnergiaDB))
+    cartas = result.scalars().all()
+
+    os.makedirs(CSV_FOLDER, exist_ok=True)
+
+    with open(ENERGIA_CSV, mode="w", newline="", encoding="utf-8") as archivo:
+        writer = csv.DictWriter(archivo, fieldnames=ENERGIA_HEADERS)
+        writer.writeheader()
+        for carta in cartas:
+            writer.writerow({
+                "id": carta.id,
+                "nombre": carta.nombre,
+                "rare": carta.rare,
+                "costo_en_bolsa": carta.costo_en_bolsa,
+                "tipo_carta": carta.tipo_carta,
+                "tipo": carta.tipo,
+                "especial": carta.especial
+            })
+
 async def crear_carta_energia(db: AsyncSession, carta: CartaEnergia):
     carta_db = CartaEnergiaDB(**carta.dict())
     db.add(carta_db)

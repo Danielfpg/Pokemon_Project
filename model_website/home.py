@@ -497,3 +497,11 @@ async def recuperar_energia(
         "request": request,
         "energias": energias
     })
+
+
+@router.get("/desarrollador", response_class=HTMLResponse)
+def mostrar_desarrollador(request: Request):
+    return templates.TemplateResponse("desarrollador.html", {"request": request})
+@router.get("/Objetivos", response_class=HTMLResponse)
+def mostrar_Objetivos(request: Request):
+    return templates.TemplateResponse("Objetivos.html", {"request": request})

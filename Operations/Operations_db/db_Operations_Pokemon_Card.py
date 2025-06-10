@@ -7,10 +7,12 @@ from Models.Model_pydantic.Model_Pokemon_card import CartaPokemon
 from Models.Model_db.Model_stats_db import StatsDB
 import csv
 import os
-CSV_FILE = "Pokemon.csv"
+
+CSV_FOLDER = "./CSV"
+POKEMON_CSV = os.path.join(CSV_FOLDER, "Pokemon.csv")
+POKEMON_BACKUP_CSV = os.path.join(CSV_FOLDER, "PokemonBackup.csv")
 CSV_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo",
                "hp", "ataque", "defensa", "velocidad", "atk.especial","def.especial"]
-BACKUP_CSV = "PokemonBackup.csv"
 BACKUP_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo", "stats_id"]
 
 # Crear una nueva carta Pokémon
@@ -42,8 +44,8 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
         await db.refresh(carta_db)
 
         # Guardar en archivo CSV
-        archivo_existe = os.path.exists(CSV_FILE)
-        with open(CSV_FILE, mode="a", newline="", encoding="utf-8") as archivo:
+        archivo_existe = os.path.exists(POKEMON_CSV)
+        with open(POKEMON_CSV, mode="a", newline="", encoding="utf-8") as archivo:
             writer = csv.DictWriter(archivo, fieldnames=CSV_HEADERS)
             if not archivo_existe:
                 writer.writeheader()
@@ -125,8 +127,8 @@ async def eliminar_carta_pokemon(db: AsyncSession, nombre: str):
         db.add(carta_backup)
 
         # Guardar también en el archivo CSV de backup
-        archivo_existe = os.path.exists(BACKUP_CSV)
-        with open(BACKUP_CSV, mode="a", newline="", encoding="utf-8") as archivo:
+        archivo_existe = os.path.exists(POKEMON_BACKUP_CSV)
+        with open(POKEMON_BACKUP_CSV, mode="a", newline="", encoding="utf-8") as archivo:
             writer = csv.DictWriter(archivo, fieldnames=BACKUP_HEADERS)
             if not archivo_existe:
                 writer.writeheader()
@@ -173,21 +175,21 @@ async def restaurar_carta_pokemon(db: AsyncSession, nombre: str):
         await db.refresh(carta_restaurada)
 
         # 1. Eliminar del archivo CSV de backup
-        if os.path.exists(BACKUP_CSV):
-            with open(BACKUP_CSV, newline='', encoding='utf-8') as archivo:
+        if os.path.exists(POKEMON_BACKUP_CSV):
+            with open(POKEMON_BACKUP_CSV, newline='', encoding='utf-8') as archivo:
                 filas = list(csv.DictReader(archivo))
 
             nuevas_filas = [fila for fila in filas if fila["nombre"] != nombre]
 
-            with open(BACKUP_CSV, mode="w", newline="", encoding="utf-8") as archivo:
+            with open(POKEMON_BACKUP_CSV, mode="w", newline="", encoding="utf-8") as archivo:
                 writer = csv.DictWriter(archivo, fieldnames=BACKUP_HEADERS)
                 writer.writeheader()
                 writer.writerows(nuevas_filas)
 
         # 2. Agregar al CSV de cartas Pokémon
-        with open(CSV_FILE, mode="a", newline="", encoding="utf-8") as archivo:
+        with open(POKEMON_CSV, mode="a", newline="", encoding="utf-8") as archivo:
             writer = csv.DictWriter(archivo, fieldnames=CSV_HEADERS)
-            if not os.path.exists(CSV_FILE) or os.stat(CSV_FILE).st_size == 0:
+            if not os.path.exists(POKEMON_CSV) or os.stat(POKEMON_CSV).st_size == 0:
                 writer.writeheader()
             writer.writerow({
                 "id": carta_restaurada.id,
