@@ -57,7 +57,7 @@ app.include_router(home_router)
 
 @app.on_event("startup")
 async def startup_event():
-    upload_csvs_to_supabase(csv_folder=".csv")
+    upload_csvs_to_supabase(csv_folder="./csv")
 
 @app.on_event("startup")
 async def startup_event():
