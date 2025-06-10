@@ -22,4 +22,4 @@ def upload_csvs_to_supabase(csv_folder=".", supabase=None):
                 print(f"❌ Error al procesar {filename}: {e}")
 # Llamar a la función automáticamente
 if __name__ == "__main__":
-    upload_csvs_to_supabase(csv_folder="./CSV")
+    upload_csvs_to_supabase(csv_folder="./csv")
