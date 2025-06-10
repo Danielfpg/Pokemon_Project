@@ -6,7 +6,7 @@ from Models.Model_pydantic.Model_Energie_card import CartaEnergia
 import csv
 import os
 
-CSV_FOLDER = "./CSV"
+CSV_FOLDER = "./csv"
 ENERGIA_CSV = os.path.join(CSV_FOLDER, "Energia.csv")
 ENERGIA_BACKUP_CSV = os.path.join(CSV_FOLDER, "Energiabackup.csv")
 

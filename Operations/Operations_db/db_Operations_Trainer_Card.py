@@ -7,7 +7,7 @@ import unicodedata
 import csv
 import os
 
-CSV_FOLDER = "./CSV"
+CSV_FOLDER = "./csv"
 TRAINER_CSV = os.path.join(CSV_FOLDER, "Entrenador.csv")
 TRAINER_BACKUP_CSV= os.path.join(CSV_FOLDER, "Entrenadorbackup.csv")
 TRAINER_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "subtipo", "efecto", "tiempo"]

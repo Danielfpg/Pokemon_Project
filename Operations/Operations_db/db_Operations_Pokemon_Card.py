@@ -8,7 +8,7 @@ from Models.Model_db.Model_stats_db import StatsDB
 import csv
 import os
 
-CSV_FOLDER = "./CSV"
+CSV_FOLDER = "./csv"
 POKEMON_CSV = os.path.join(CSV_FOLDER, "Pokemon.csv")
 POKEMON_BACKUP_CSV = os.path.join(CSV_FOLDER, "PokemonBackup.csv")
 CSV_HEADERS = ["id", "nombre", "rare", "costo_en_bolsa", "tipo_carta", "tipo",
