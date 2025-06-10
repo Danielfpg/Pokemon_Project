@@ -11,6 +11,7 @@
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+
 </style>
 
 <div class="body_container found">
@@ -95,7 +96,7 @@
             <label class="form-label">Tipo Pokémon primario</label>
             <select id="tipo1" name="tipo1" class="form-control" required>
                 <option value="">Selecciona un tipo</option>
-                {% for  tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
+                {% for tipo in ["Normal", "Fuego", "Agua", "Eléctrico", "Planta", "Hielo", "Lucha", "Veneno", "Tierra", "Volador", "Psíquico", "Bicho", "Roca", "Fantasma", "Dragón", "Siniestro", "Acero", "Hada"] %}
                 <option value="{{ tipo }}">{{ tipo }}</option>
                 {% endfor %}
             </select>
@@ -142,23 +143,23 @@
         </div>
         <div class="mb-3">
             <label>Ataque:</label>
-            <input type="number" name="attack" required class="form-control" min="0" max="330">
+            <input type="number" name="attack" required class="form-control" min="0" max="1000">
         </div>
         <div class="mb-3">
             <label>Defensa:</label>
-            <input type="number" name="defense" required class="form-control" min="0" max="255">
+            <input type="number" name="defense" required class="form-control" min="0" max="1000">
         </div>
         <div class="mb-3">
             <label>Velocidad:</label>
-            <input type="number" name="speed" required class="form-control" min="0" max="255">
+            <input type="number" name="speed" required class="form-control" min="0" max="1000">
         </div>
         <div class="mb-3">
             <label>Ataque especial:</label>
-            <input type="number" name="special_atk" required class="form-control" min="0" max="255">
+            <input type="number" name="special_atk" required class="form-control" min="0" max="1000">
         </div>
         <div class="mb-3">
             <label>Defensa especial:</label>
-            <input type="number" name="special_def" required class="form-control" min="0" max="255">
+            <input type="number" name="special_def" required class="form-control" min="0" max="1000">
         </div>
 
     <!-- Imagen

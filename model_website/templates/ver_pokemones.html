@@ -44,10 +44,10 @@
   {% if not pokemones %}
     <div class="alert alert-warning mt-4">No se encontraron cartas con ese nombre.</div>
   {% else %}
-    <div class="row g-3">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       {% for pokemon in pokemones %}
-      <div class="col-md-6">
-        <div class="card pokemon-card p-3">
+      <div class="col">
+        <div class="card pokemon-card p-3 h-100">
           <div class="row g-2 align-items-center">
             <!-- Columna Imagen -->
             <div class="col-5 text-center">
@@ -79,7 +79,8 @@
                 </div>
               </div>
               <div class="mt-2">
-              <a href="/cartas/editar/pokemon/{{ pokemon.nombre }}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="/cartas/editar/pokemon/{{ pokemon.nombre }}" class="btn btn-sm btn-warning">Editar</a>
+              </div>
             </div>
           </div>
         </div>
@@ -87,6 +88,5 @@
       {% endfor %}
     </div>
   {% endif %}
-</div>
 </div>
 {% endblock %}

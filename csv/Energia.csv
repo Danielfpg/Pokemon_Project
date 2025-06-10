@@ -1,3 +1,5 @@
 id,nombre,rare,costo_en_bolsa,tipo_carta,tipo,especial
 99,Energía Planta,poco_común,472.77,energia,planta,False
 101, Energía Psíquica Básica,común,4075.0,energia,psiquico,False
+112,Energía Misterio,común,15343.9,energia,oscura,True
+266,Energía Inversión,rara_secreta,17704.5,energia,incolora,True

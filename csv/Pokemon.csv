@@ -1,2 +1,2 @@
-id,nombre,tipo_carta,rare,costo_en_bolsa,tipo,especial,subtipo,efecto,tiempo,stats
+id,nombre,rare,costo_en_bolsa,tipo_carta,tipo,hp,ataque,defensa,velocidad,atk.especial,def.especial
 

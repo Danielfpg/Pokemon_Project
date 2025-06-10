@@ -52,9 +52,9 @@ async def crear_carta_pokemon(db: AsyncSession, carta: CartaPokemon):
             writer.writerow({
                 "id": carta_db.id,
                 "nombre": carta_db.nombre,
+                "tipo_carta": carta_db.tipo_carta,
                 "rare": carta_db.rare,
                 "costo_en_bolsa": carta_db.costo_en_bolsa,
-                "tipo_carta": carta_db.tipo_carta,
                 "tipo": carta_db.tipo,
                 "hp": stats_db.hp,
                 "ataque": stats_db.attack,

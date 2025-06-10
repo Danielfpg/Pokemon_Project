@@ -1,6 +1,6 @@
 id,nombre,rare,costo_en_bolsa,tipo_carta,subtipo,efecto,tiempo
-
 148,Modelo,común,9466.28,entrenador,Partidario,"Si sales primero, puedes jugar esta carta durante tu primer turno.
  Roba 2 cartas.",un turno
 213,Desafío de Rojo,ultra_rara,305358.0,entrenador,Partidario,"Puedes jugar esta carta solo si descartas otras 2 cartas de tu mano.
 Busca en tu baraja 1 carta y ponla en tu mano. Después, baraja las cartas de tu baraja.",un turno
+117,Máquina Técnica: Involución,común,1133.09,entrenador,MT,Involuciona a cada uno de los Pokémon evolucionados de tu rival poniendo la carta de Evolución de fase más alta que tengan sobre ellos en la mano de tu rival.,No tiene restricciones de turno
